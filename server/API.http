@@ -1,0 +1,31 @@
+### Access 
+### Sign Up
+POST http://localhost:3030/api/v1/access/sign-up
+Content-Type: application/json
+
+{
+    "email": "test@gmail.com",
+    "password": "123"
+}
+
+### Login
+POST http://localhost:3030/api/v1/access/login
+Content-Type: application/json
+
+{
+    "option": "test@gmail.com",
+    "password": "123"
+}
+
+
+### Shop
+
+### Register Booth
+POST  http://localhost:3030/api/v1/access/logout
+Content-Type: application/json
+
+{
+    "userId: 2"
+    "province_code": "test@gmail.com",
+}
+
