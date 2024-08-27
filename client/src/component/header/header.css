@@ -1,0 +1,54 @@
+header {
+  width: 100%;
+  height: 80px;
+  margin: auto;
+  padding: 30px 0px;
+}
+
+header .headerSearch {
+  width: 100%;
+  height: 40px;
+  background-color: #f0f5ff;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  padding: 10px 15px;
+  cursor: pointer;
+  width: 100%;
+  position: relative;
+}
+header .headerSearch .selectDrop {
+  width: 20%;
+  position: relative;
+}
+
+header .headerSearch .selectDrop:after {
+  content: "";
+  width: 1px;
+  height: 30px;
+  background-color: rgba(5, 5, 5, 0.2);
+  position: absolute;
+  top: -3px;
+  right: 0px;
+}
+header .headerSearch .search {
+  width: 80%;
+  position: relative;
+}
+
+header .headerSearch .search input {
+  padding: 0px 15px;
+  width: 100%;
+  height: 35px;
+  border: 0px;
+  outline: none;
+  background-color: #f0f5ff;
+}
+
+header .headerSearch .search .searchIcon {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  opacity: 0.5;
+}
