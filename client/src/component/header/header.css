@@ -1,5 +1,9 @@
 header {
   width: 100%;
+ 
+
+ 
+  box-sizing: border-box;
   height: 80px;
   margin: auto;
   padding: 30px 0px;
@@ -19,7 +23,7 @@ header .headerSearch {
   position: relative;
 }
 header .headerSearch .selectDrop {
-  width: 20%;
+  width: 25%;
   position: relative;
 }
 
@@ -29,11 +33,11 @@ header .headerSearch .selectDrop:after {
   height: 30px;
   background-color: rgba(5, 5, 5, 0.2);
   position: absolute;
-  top: -3px;
+  top: -8%;
   right: 0px;
 }
 header .headerSearch .search {
-  width: 80%;
+  width: 75%;
   position: relative;
 }
 
@@ -51,4 +55,33 @@ header .headerSearch .search .searchIcon {
   top: 10px;
   right: 5px;
   opacity: 0.5;
+}
+
+.loginNav {
+  width: calc(100% / 3); 
+  display: block;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 40px;
+  height: 40px;
+ 
+  text-align: center;
+
+}
+
+.navButton{
+  border-radius: 3px;
+  padding: 9px 30px;
+  width: max-content;
+  transition: ease-in-out 0.3s;
+}
+
+.navButton:hover{
+
+color: white;
+background-color: blue;
+font-weight: 500;
+border: 1px solid rgb(241, 177, 39);
 }
