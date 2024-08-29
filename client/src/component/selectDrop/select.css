@@ -43,3 +43,8 @@
   background-color: #f3f3f3;
   color: rgb(42, 139, 230);
 }
+
+.selectDropp .searchResults li.active {
+  background-color: #f3f3f3;
+  color: black !important;
+}
