@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "product_id",
         as: "product",
       });
+
+      this.hasMany(models.ReviewImage, {
+        foreignKey: "review_id",
+        as: "review_images",
+      });
     }
   }
 
@@ -26,24 +31,22 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
-      url: {
+      content: {
+        type: DataTypes.STRING,
+      },
+      rating_point: {
+        type: DataTypes.ENUM("1", "2", "3", "4", "5"),
+      },
+      reply: {
         type: DataTypes.STRING,
       },
       order_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: "orders",
-          key: "_id",
-        },
       },
       product_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: "products",
-          key: "_id",
-        },
       },
     },
     {

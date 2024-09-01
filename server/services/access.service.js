@@ -1,8 +1,10 @@
 "use strict";
-
 require("dotenv").config();
-const { sequelize, User, Role, UserRole } = require("../models");
-const { BadRequestError, AuthFailureError } = require("../core/error.response");
+
+const ROLE = JSON.parse(process.env.ROLES).customer;
+
+const { sequelize, User, UserRole } = require("../models");
+const { BadRequestError } = require("../core/error.response");
 const { getInfoData } = require("../utils");
 const bcrypt = require("bcrypt");
 const emailValidator = require("email-validator");
@@ -11,22 +13,18 @@ const jwt = require("jsonwebtoken");
 
 class AccessService {
   static signUp = async ({ email, password }) => {
+    const foundUser = await User.findOne({
+      where: { email },
+      attributes: ["_id"],
+    });
+
+    if (foundUser) {
+      throw new BadRequestError("Error: Account already registered");
+    }
+
     const t = await sequelize.transaction();
 
     try {
-      const foundUser = await User.findOne({
-        where: { email },
-        transaction: t,
-      });
-      if (foundUser) {
-        throw new BadRequestError("Error: Account already registered");
-      }
-
-      const customerRole = await Role.findOne({
-        where: { name: "customer" },
-        transaction: t,
-      });
-
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
       const newUser = await User.create(
@@ -37,13 +35,21 @@ class AccessService {
         { transaction: t }
       );
 
-      await UserRole.create(
+      if (!newUser) {
+        throw new BadRequestError("Can not add role");
+      }
+
+      const newRole = await UserRole.create(
         {
           user_id: newUser._id,
-          role_id: customerRole._id,
+          role_id: ROLE,
         },
         { transaction: t }
       );
+
+      if (!newRole) {
+        throw new BadRequestError("Can not add role");
+      }
 
       await t.commit();
 
@@ -97,36 +103,36 @@ class AccessService {
       );
 
       return {
-        user: getInfoData({ fields: ["_id", "role"], object: foundUser }),
+        //user: getInfoData({ fields: [], object: foundUser }),
         accessToken: accessToken,
       };
     }
   };
 
-  static refresh = async ({ refreshToken, userInfo }) => {
-    if (!refreshToken) {
-      throw new BadRequestError("Error: You are not authenticated");
-    }
+  // static refresh = async ({ refreshToken, userInfo }) => {
+  //   if (!refreshToken) {
+  //     throw new BadRequestError("Error: You are not authenticated");
+  //   }
 
-    // console.log({
-    //   if: "access service",
-    //   userInfo,
-    //   refreshToken,
-    // });
+  //   // console.log({
+  //   //   if: "access service",
+  //   //   userInfo,
+  //   //   refreshToken,
+  //   // });
 
-    const tokenPair = await KeyService.refesh(refreshToken, userInfo);
+  //   const tokenPair = await KeyService.refesh(refreshToken, userInfo);
 
-    // console.log({
-    //   if: "access service",
-    //   tokenPair,
-    // });
+  //   // console.log({
+  //   //   if: "access service",
+  //   //   tokenPair,
+  //   // });
 
-    if (!tokenPair) {
-      throw new BadRequestError("Error: Create token pair fails");
-    }
+  //   if (!tokenPair) {
+  //     throw new BadRequestError("Error: Create token pair fails");
+  //   }
 
-    return tokenPair;
-  };
+  //   return tokenPair;
+  // };
 
   // static logout = async (userInfo) => {
   //   return await KeyService.deleteKeyByIdUser(userInfo._id);

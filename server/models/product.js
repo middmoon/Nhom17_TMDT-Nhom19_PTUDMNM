@@ -32,11 +32,6 @@ module.exports = (sequelize, DataTypes) => {
         as: "reviews",
       });
 
-      this.hasMany(models.OrderItem, {
-        foreignKey: "product_id",
-        as: "order_items",
-      });
-
       this.belongsToMany(models.Order, {
         through: models.OrderItem,
         foreignKey: "product_id",
@@ -65,34 +60,23 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
       },
       stock_quantity: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.INTEGER.UNSIGNED,
       },
       price: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.BIGINT.UNSIGNED,
       },
       sale_price: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.BIGINT.UNSIGNED,
       },
       shop_id: {
         type: DataTypes.INTEGER,
-        references: {
-          model: "shops",
-          key: "_id",
-        },
+        allowNull: false,
       },
       brand_id: {
         type: DataTypes.INTEGER,
-        references: {
-          model: "brands",
-          key: "_id",
-        },
       },
       category_id: {
         type: DataTypes.INTEGER,
-        references: {
-          model: "categories",
-          key: "_id",
-        },
       },
     },
     {

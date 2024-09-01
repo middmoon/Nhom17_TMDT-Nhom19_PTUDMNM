@@ -6,14 +6,14 @@ module.exports = (sequelize, DataTypes) => {
   class CustomerShippingAddress extends Model {
     static associate(models) {
       // Define associations here if needed
-      // this.belongsTo(models.User, {
-      //   foreignKey: "customer_id",
-      //   as: "user",
-      // });
-      // this.belongsTo(models.Ward, {
-      //   foreignKey: "ward_code",
-      //   as: "ward",
-      // });
+      this.belongsTo(models.User, {
+        foreignKey: "customer_id",
+        as: "user",
+      });
+      this.belongsTo(models.Ward, {
+        foreignKey: "ward_code",
+        as: "ward",
+      });
     }
   }
 
@@ -32,12 +32,11 @@ module.exports = (sequelize, DataTypes) => {
       ward_code: {
         type: DataTypes.STRING(20),
         allowNull: false,
-        references: {
-          model: "wards",
-          key: "code",
-        },
       },
       address: {
+        type: DataTypes.STRING,
+      },
+      phone_number: {
         type: DataTypes.STRING,
       },
     },

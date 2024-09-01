@@ -2,6 +2,13 @@
 
 const { Model } = require("sequelize");
 
+// const generateOrderCode = () => {
+//   const prefix = "ORD-";
+//   const randomNum = Math.floor(Math.random() * 100000);
+//   const timestamp = Date.now();
+//   return `${prefix}${timestamp}-${randomNum}`;
+// };
+
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
     static associate(models) {
@@ -13,11 +20,6 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.User, {
         foreignKey: "customer_id",
         as: "user",
-      });
-
-      this.hasMany(models.OrderItem, {
-        foreignKey: "order_id",
-        as: "items",
       });
 
       this.belongsToMany(models.Product, {
@@ -32,10 +34,15 @@ module.exports = (sequelize, DataTypes) => {
         as: "review",
       });
 
-      // this.hasOne(models.CustomerShippingAddress, {
-      //   foreignKey: "customer_shipping_address_id",
-      //   as: "shipping_address",
-      // });
+      this.hasOne(models.CustomerShippingAddress, {
+        foreignKey: "customer_shipping_address_id",
+        as: "shipping_address",
+      });
+
+      this.hasOne(models.ShopAddress, {
+        foreignKey: "_id",
+        as: "shop_address",
+      });
 
       this.belongsToMany(models.Voucher, {
         through: models.OrderVoucher,
@@ -64,44 +71,45 @@ module.exports = (sequelize, DataTypes) => {
         ),
         defaultValue: "pending",
       },
-      is_paid: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+      description: {
+        type: DataTypes.STRING,
+        unique: true,
       },
       order_code: {
         type: DataTypes.STRING,
         unique: true,
       },
-      shop_address: {
-        type: DataTypes.STRING,
-      },
       total_amount: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.BIGINT.UNSIGNED,
+      },
+      shipping_cost: {
+        type: DataTypes.BIGINT.UNSIGNED,
       },
       discount_amount: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.BIGINT.UNSIGNED,
       },
       final_amount: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.BIGINT.UNSIGNED,
+      },
+      is_paid: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
       customer_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: "users",
-          key: "_id",
-        },
       },
-      customer_shipping_address: {
-        type: DataTypes.STRING,
+      customer_shipping_address_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      shop_address_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
       shop_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: "shops",
-          key: "_id",
-        },
       },
     },
     {

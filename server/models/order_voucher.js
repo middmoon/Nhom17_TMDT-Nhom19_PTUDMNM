@@ -6,6 +6,14 @@ module.exports = (sequelize, DataTypes) => {
   class OrderVoucher extends Model {
     static associate(models) {
       // Define associations here if needed
+      this.belongsTo(models.Order, {
+        foreignKey: "order_id",
+        as: "order",
+      });
+      this.belongsTo(models.Voucher, {
+        foreignKey: "voucher_id",
+        as: "voucher",
+      });
     }
   }
 
@@ -13,18 +21,10 @@ module.exports = (sequelize, DataTypes) => {
     {
       order_id: {
         type: DataTypes.INTEGER,
-        references: {
-          model: "orders",
-          key: "_id",
-        },
         allowNull: false,
       },
       voucher_id: {
         type: DataTypes.INTEGER,
-        references: {
-          model: "vouchers",
-          key: "_id",
-        },
         allowNull: false,
       },
     },

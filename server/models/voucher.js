@@ -42,10 +42,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       max_user: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.INTEGER.UNSIGNED,
       },
       status: {
-        type: DataTypes.ENUM("active", "exprired", "pending"),
+        type: DataTypes.ENUM("active", "expired", "pending"),
         defaultValue: "pending",
       },
     },

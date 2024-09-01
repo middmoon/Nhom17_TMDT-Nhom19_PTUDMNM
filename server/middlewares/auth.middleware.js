@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const { AuthFailureError } = require("../core/error.response");
 
+const { Shop, Role, UserRole, User } = require("../models");
+
 const HEADER = {
   API_KEY: "x-api-key",
   CLIENT_ID: "x-client-id",
@@ -11,7 +13,10 @@ const HEADER = {
 };
 
 const verifyToken = asyncHandler(async (req, res, next) => {
+  // const token = req.cookies.accessToken || req.headers[HEADER.AUTHORIZATION];
+
   const token = req.headers[HEADER.AUTHORIZATION];
+
   if (!token) throw new AuthFailureError("Not found token");
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
@@ -22,32 +27,69 @@ const verifyToken = asyncHandler(async (req, res, next) => {
   });
 });
 
-const verifyCustomer = (req, res, next) => {
-  if (req.user.role === "HOTEL_MANAGER") {
+const checkRole = asyncHandler(async (req, res, next, roleName) => {
+  const userId = req._id; // Ensure `_id` is properly set on req object
+
+  if (!userId) {
+    return res.status(401).json({ message: "User ID is required." });
+  }
+
+  const foundUser = await User.findOne({
+    where: { _id: userId },
+    include: {
+      model: Role,
+      as: "roles",
+      where: { name: roleName },
+      attributes: ["name"],
+    },
+    attributes: ["_id"],
+  });
+
+  if (foundUser && foundUser.roles.length > 0) {
     next();
   } else {
     throw new AuthFailureError("Insufficient privileges");
   }
+});
+
+const verifyCustomer = (req, res, next) => {
+  return checkRole(req, res, next, "customer");
 };
 
 const verifySeller = (req, res, next) => {
-  if (req.user.role === "ADMIN") {
-    next();
-  } else {
-    throw new AuthFailureError("Insufficient privileges");
-  }
+  return checkRole(req, res, next, "seller");
 };
 
 const verifyAdmin = (req, res, next) => {
-  if (req.user.role === "ADMIN") {
-    next();
-  } else {
-    throw new AuthFailureError("Insufficient privileges");
-  }
+  return checkRole(req, res, next, "admin");
 };
+
+const verifyShopOwner = asyncHandler(async (req, res, next) => {
+  const userId = req._id;
+  const shopId = req.params.shopId || req.body.shopId;
+
+  if (!shopId) throw new AuthFailureError("Shop ID is required");
+
+  const shop = await Shop.findOne({
+    where: {
+      _id: shopId,
+      owner_id: userId,
+    },
+  });
+
+  if (!shop) {
+    throw new AuthFailureError(
+      "You do not have permission to access this shop"
+    );
+  }
+
+  next();
+});
 
 module.exports = {
   verifyToken,
-  verifyAdminAuth,
-  verifyHotelAuth,
+  verifyCustomer,
+  verifySeller,
+  verifyAdmin,
+  verifyShopOwner,
 };

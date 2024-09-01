@@ -3,17 +3,21 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class ShopImage extends Model {
+  class ShopAddress extends Model {
     static associate(models) {
       // Define associations here if needed
       this.belongsTo(models.Shop, {
         foreignKey: "shop_id",
         as: "shop",
       });
+      this.belongsTo(models.Ward, {
+        foreignKey: "ward_code",
+        as: "ward",
+      });
     }
   }
 
-  ShopImage.init(
+  ShopAddress.init(
     {
       _id: {
         type: DataTypes.INTEGER,
@@ -21,27 +25,30 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
-      url: {
-        type: DataTypes.STRING,
-      },
       shop_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: "shops",
-          key: "_id",
-        },
+      },
+      ward_code: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+      },
+      address: {
+        type: DataTypes.STRING,
+      },
+      phone_number: {
+        type: DataTypes.STRING,
       },
     },
     {
       sequelize,
-      modelName: "ShopImage",
-      tableName: "shop_images",
+      modelName: "ShopAddress",
+      tableName: "shop_addresses",
       timestamps: true,
       charset: "utf8",
       collate: "utf8_general_ci",
     }
   );
 
-  return ShopImage;
+  return ShopAddress;
 };

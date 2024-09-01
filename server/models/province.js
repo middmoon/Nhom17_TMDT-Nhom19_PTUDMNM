@@ -16,11 +16,6 @@ module.exports = (sequelize, DataTypes) => {
       Province.belongsTo(models.AdministrativeUnit, {
         foreignKey: "administrative_unit_id",
       });
-
-      Province.hasMany(models.Shop, {
-        foreignKey: "province_code",
-        as: "shops",
-      });
     }
   }
 

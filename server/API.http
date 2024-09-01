@@ -4,7 +4,7 @@ POST http://localhost:3030/api/v1/access/sign-up
 Content-Type: application/json
 
 {
-    "email": "test@gmail.com",
+    "email": "test2@gmail.com",
     "password": "123"
 }
 
@@ -13,10 +13,13 @@ POST http://localhost:3030/api/v1/access/login
 Content-Type: application/json
 
 {
-    "option": "test@gmail.com",
+    "option": "test2@gmail.com",
     "password": "123"
 }
 
+### Logout
+DELETE  http://localhost:3030/api/v1/access/logout
+Content-Type: application/json
 
 ### Shop
 
@@ -24,8 +27,69 @@ Content-Type: application/json
 POST  http://localhost:3030/api/v1/access/logout
 Content-Type: application/json
 
+# {
+#     "userId": 2
+#     "province_code": "test@gmail.com",
+# }
+
+
+### Location 
+GET http://localhost:3030/api/v1/address
+### Province 
+GET http://localhost:3030/api/v1/address/procince
+
+### District 
+GET http://localhost:3030/api/v1/address/district/68
+
+### Ward 
+GET http://localhost:3030/api/v1/address/ward/672
+
+### Search
+GET http://localhost:3030/api/v1/address/search/?place=Đà Lạt
+
+### User
+GET http://localhost:3030/api/v1/customer
+
+### Get my info 
+GET http://localhost:3030/api/v1/customer/profile
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjYsImlhdCI6MTcyNTE4MDY3MywiZXhwIjoxNzI2MDQ0NjczfQ.lkMw4kKy-x2qJvlBwjIdcy6QH9VTmXCwNUziVOF1eX0
+
+
+### update info
+PUT http://localhost:3030/api/v1/customer/update-profile
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTE3NjQwOCwiZXhwIjoxNzI2MDQwNDA4fQ.AQXEmE4VKmnT3HRuZPhYo00DMmb2utdBLn6eFtSty_4
+
 {
-    "userId: 2"
-    "province_code": "test@gmail.com",
+    "phone_number": "01234567",
+    "user_name": "Nguyen",
+    "first_name": "Thanh"
 }
 
+### update image 
+
+PUT http://localhost:3030/api/v1/customer/update-image
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTE3NjQwOCwiZXhwIjoxNzI2MDQwNDA4fQ.AQXEmE4VKmnT3HRuZPhYo00DMmb2utdBLn6eFtSty_4
+
+{
+    "image_url": "img url"
+}
+
+
+### SHOP
+GET http://localhost:3030/api/v1/shop
+### register shop
+POST http://localhost:3030/api/v1/shop/register
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE2LCJpYXQiOjE3MjUxODEzODgsImV4cCI6MTcyNjA0NTM4OH0.ZTuP376bLib_hCQi5iShUBsChMiFzLozSa0i1fdlL9g
+
+{
+    "name": "shop test 2"
+}
+###
+GET http://localhost:3030/api/v1/shop/profile
+
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE2LCJpYXQiOjE3MjUxODEzODgsImV4cCI6MTcyNjA0NTM4OH0.ZTuP376bLib_hCQi5iShUBsChMiFzLozSa0i1fdlL9g

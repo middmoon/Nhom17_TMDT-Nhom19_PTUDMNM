@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       image_url: {
         type: DataTypes.STRING,
+        unique: true,
       },
     },
     {

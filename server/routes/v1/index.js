@@ -4,6 +4,8 @@ const router = express.Router();
 router
   .use("/access", require("./access.route"))
   .use("/shop", require("./shop.route"))
+  .use("/address", require("./address.route"))
+  .use("/customer", require("./customer.route"))
 
   .get("/", function (req, res, next) {
     res.render("index", { title: "TMDT CTK45A API V1" });

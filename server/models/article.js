@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
-      name: {
+      title: {
         type: DataTypes.STRING,
       },
       content: {
@@ -42,10 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       admin_id: {
         type: DataTypes.INTEGER,
-        references: {
-          model: "users",
-          key: "_id",
-        },
+        allowNull: false,
       },
     },
     {

@@ -11,11 +11,6 @@ module.exports = (sequelize, DataTypes) => {
         as: "seller",
       });
 
-      this.hasMany(models.ShopImage, {
-        foreignKey: "shop_id",
-        as: "images",
-      });
-
       this.hasMany(models.Product, {
         foreignKey: "shop_id",
         as: "products",
@@ -26,9 +21,11 @@ module.exports = (sequelize, DataTypes) => {
         as: "orders",
       });
 
-      this.belongsTo(models.Province, {
-        foreignKey: "province_code",
-        as: "location",
+      this.belongsToMany(models.Ward, {
+        through: models.ShopAddress,
+        foreignKey: "shop_id",
+        otherKey: "ward_code",
+        as: "addresses",
       });
     }
   }
@@ -43,22 +40,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: {
         type: DataTypes.STRING,
-        unique: true,
       },
       seller_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: "users",
-          key: "_id",
-        },
       },
-      province_code: {
-        type: DataTypes.STRING(20),
-        references: {
-          model: "provinces",
-          key: "code",
-        },
+      img_url: {
+        type: DataTypes.STRING,
       },
     },
     {
