@@ -34,13 +34,13 @@ module.exports = (sequelize, DataTypes) => {
         as: "review",
       });
 
-      this.hasOne(models.CustomerShippingAddress, {
+      this.belongsTo(models.CustomerShippingAddress, {
         foreignKey: "customer_shipping_address_id",
         as: "shipping_address",
       });
 
-      this.hasOne(models.ShopAddress, {
-        foreignKey: "_id",
+      this.belongsTo(models.ShopAddress, {
+        foreignKey: "shop_address_id",
         as: "shop_address",
       });
 

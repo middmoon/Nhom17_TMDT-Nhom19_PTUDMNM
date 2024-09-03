@@ -7,6 +7,7 @@ const {
   verifyToken,
   verifyCustomer,
 } = require("../../middlewares/auth.middleware");
+const upload = require("../../config/multer.config");
 
 router
   .get("/", function (req, res, next) {
@@ -15,7 +16,21 @@ router
 
   .use(verifyToken, verifyCustomer)
   .get("/profile", asyncHandler(CustomerController.getInfoById))
+  .get(
+    "/shipping-addresses",
+    asyncHandler(CustomerController.getShippingAddresses)
+  )
+
+  .post(
+    "/add-shipping-address",
+    asyncHandler(CustomerController.addShippingAddress)
+  )
+
   .put("/update-profile", asyncHandler(CustomerController.updateInfo))
-  .put("/update-image", asyncHandler(CustomerController.updateImage));
+  .put(
+    "/update-image",
+    upload.single("customerImage"),
+    asyncHandler(CustomerController.updateCustomerImage)
+  );
 
 module.exports = router;

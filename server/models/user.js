@@ -13,11 +13,9 @@ module.exports = (sequelize, DataTypes) => {
         as: "roles",
       });
 
-      this.belongsToMany(models.Ward, {
-        through: models.CustomerShippingAddress,
+      this.hasMany(models.CustomerShippingAddress, {
         foreignKey: "customer_id",
-        otherKey: "ward_code",
-        as: "addresses",
+        as: "shipping_addresses",
       });
 
       this.hasOne(models.Shop, {
@@ -70,6 +68,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       image_url: {
         type: DataTypes.STRING,
+        defaultValue:
+          "https://res.cloudinary.com/dby8y0z9g/image/upload/v1725332119/users/user_djtxik.png",
       },
       full_name: {
         type: DataTypes.VIRTUAL,

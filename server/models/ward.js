@@ -16,18 +16,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "administrative_unit_id",
       });
 
-      this.belongsToMany(models.User, {
-        through: models.CustomerShippingAddress,
+      this.hasMany(models.CustomerShippingAddress, {
         foreignKey: "ward_code",
-        otherKey: "customer_id",
         as: "users",
       });
 
-      this.belongsToMany(models.Shop, {
-        through: models.ShopAddress,
+      this.hasMany(models.ShopAddress, {
         foreignKey: "ward_code",
-        otherKey: "shop_id",
-        as: "addresses",
+        as: "shops",
       });
     }
   }

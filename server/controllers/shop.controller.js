@@ -16,6 +16,31 @@ class ShopController {
       metadata: await ShopService.viewShop(req._id),
     }).send(res);
   };
+
+  addProduct = async (req, res, next) => {
+    new OK({
+      message: "add product for shop OK",
+      metadata: await ShopService.addProduct(req.body, req._id),
+    }).send(res);
+  };
+
+  updateShopImage = async (req, res, next) => {
+    new OK({
+      message: "update shop image OK",
+      metadata: await ShopService.updateShopImage(req._id, req.file),
+    }).send(res);
+  };
+
+  addProductImages = async (req, res, next) => {
+    new OK({
+      message: "update shop image OK",
+      metadata: await ShopService.updateShopImage(
+        req._id,
+        req.product_id,
+        req.files
+      ),
+    }).send(res);
+  };
 }
 
 module.exports = new ShopController();

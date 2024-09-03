@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "ward_code",
         as: "ward",
       });
+
+      this.hasMany(models.Order, {
+        foreignKey: "shop_address_id",
+        as: "orders",
+      });
     }
   }
 

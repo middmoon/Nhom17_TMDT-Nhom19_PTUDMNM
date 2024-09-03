@@ -8,9 +8,12 @@ const { NotFoundError, BadRequestError } = require("../core/error.response");
 const { getInfoData } = require("../utils");
 
 const { sequelize, User, Shop, UserRole, Product } = require("../models");
+const { createSlug } = require("../utils/slug");
+
+const cloudinary = require("../config/cloudinary.config");
 
 class ShopService {
-  static async registerShop({ name }, userId) {
+  static async registerShop(payload, userId) {
     const foundUser = await User.findOne({
       where: { _id: userId },
       attributes: ["_id"],
@@ -32,10 +35,13 @@ class ShopService {
     const t = await sequelize.transaction();
 
     try {
+      const slug = createSlug(payload.name);
+
       const newShop = await Shop.create(
         {
           seller_id: userId,
-          name: name,
+          name: payload.name,
+          slug: slug,
         },
         { transaction: t }
       );
@@ -89,15 +95,65 @@ class ShopService {
     }
 
     return {
-      foundShop,
+      shop: foundShop,
     };
   }
 
   static async updateShopInfo() {}
 
-  static async addShopImage() {}
+  static async updateShopImage(ownerId, file) {
+    const imgPath = file.path;
 
-  static async deleteShopImage() {}
+    const foundUser = await User.findOne({
+      where: { _id: ownerId },
+      attributes: ["_id"],
+    });
+
+    if (!foundUser) {
+      throw new NotFoundError("Something wrong with your info: Not find user");
+    }
+
+    const foundShop = await Shop.findOne({
+      where: { seller_id: ownerId },
+    });
+
+    if (!foundShop) {
+      throw new NotFoundError("Something wrong with your info: Not find shop");
+    }
+
+    try {
+      const r = await cloudinary.uploader.upload(imgPath, {
+        folder: "shops",
+        public_id: `shop_${foundShop._id}`,
+        overwrite: true,
+      });
+
+      if (!r) {
+        throw new BadRequestError("Error---: Can not update this user");
+      }
+
+      const updatedShop = await Shop.update(
+        {
+          img_url: r.secure_url,
+        },
+        {
+          where: {
+            _id: foundShop._id,
+          },
+        }
+      );
+
+      if (updatedShop.length === 0) {
+        throw new NotFoundError("Error: Can not update this shop");
+      }
+
+      return {
+        shop: updatedShop,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
 
   static async addProduct(payload, ownerId) {
     const foundUser = await User.findOne({
@@ -117,15 +173,10 @@ class ShopService {
     if (!foundShop) {
       throw new NotFoundError("Something wrong with your info: Not find shop");
     }
-    const now = Date.now();
 
-    const slug = payload.name
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .concat(`-${now + 10}`);
+    const slug = createSlug(payload.name);
 
-    const newProduct = Product.create({
+    const newProduct = await Product.create({
       name: payload.name,
       description: payload.description,
       price: payload.price,
@@ -142,11 +193,11 @@ class ShopService {
     }
 
     return {
-      product: newProduct,
+      newProduct,
     };
   }
 
-  static async addProductImage() {}
+  static async addProductImage(ownerId, file) {}
 
   static async updateProductInfo() {}
 

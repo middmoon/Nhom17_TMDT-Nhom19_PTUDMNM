@@ -1,5 +1,5 @@
 "use strict";
-const { OK } = require("../core/success.response");
+const { OK, CREATED } = require("../core/success.response");
 const CustomerService = require("../services/customer.service");
 
 class UserController {
@@ -17,10 +17,24 @@ class UserController {
     }).send(res);
   };
 
-  updateImage = async (req, res, next) => {
+  updateCustomerImage = async (req, res, next) => {
     new OK({
       message: "update user image OK",
-      metadata: await CustomerService.updateImage(req._id, req.body),
+      metadata: await CustomerService.updateCustomerImage(req._id, req.file),
+    }).send(res);
+  };
+
+  addShippingAddress = async (req, res, next) => {
+    new CREATED({
+      message: "add shipping address OK",
+      metadata: await CustomerService.addShipingAddress(req._id, req.body),
+    }).send(res);
+  };
+
+  getShippingAddresses = async (req, res, next) => {
+    new OK({
+      message: "get shipping addresses OK",
+      metadata: await CustomerService.getShippingAddresses(req._id),
     }).send(res);
   };
 }

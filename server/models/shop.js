@@ -23,9 +23,9 @@ module.exports = (sequelize, DataTypes) => {
 
       this.belongsToMany(models.Ward, {
         through: models.ShopAddress,
-        foreignKey: "shop_id",
+        foreignKey: "shop_od",
         otherKey: "ward_code",
-        as: "addresses",
+        as: "wards",
       });
     }
   }
@@ -41,12 +41,17 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
       },
+      slug: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       seller_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
       img_url: {
         type: DataTypes.STRING,
+        defaultValue:
+          "https://res.cloudinary.com/dby8y0z9g/image/upload/v1725332119/users/shop_acn6xu.png",
       },
     },
     {

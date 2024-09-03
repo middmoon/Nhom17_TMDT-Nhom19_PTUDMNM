@@ -5,6 +5,9 @@ const { sequelize, User, CustomerShippingAddress } = require("../models");
 const { NotFoundError, BadRequestError } = require("../core/error.response");
 const { getInfoData, omitInfoData } = require("../utils");
 const UserService = require("./user.service");
+const cloudinary = require("../config/cloudinary.config");
+const { pullAll } = require("lodash");
+const { where } = require("sequelize");
 
 class CustomerService {
   static async getUserInfoById(userId) {
@@ -18,14 +21,13 @@ class CustomerService {
       throw new NotFoundError("Error: Can not find the user");
     }
 
-    if (foundUser) {
-      return {
-        user: foundUser,
-      };
-    }
+    return {
+      user: foundUser,
+    };
   }
 
   static async updateInfo(userId, payload) {
+    console.log(userId);
     try {
       await UserService.foundUser(userId);
 
@@ -38,7 +40,7 @@ class CustomerService {
         }
       );
 
-      if (!updatedUser) {
+      if (updatedUser.length === 0) {
         throw new NotFoundError("Error: Can not update this user");
       }
 
@@ -55,12 +57,34 @@ class CustomerService {
     }
   }
 
-  static async updateImage(userId, payload) {
+  static async updateCustomerImage(userId, file) {
+    const imgPath = file.path;
+
+    const foundUser = await User.findOne({
+      where: { _id: userId },
+      attributes: { exclude: ["password", "_id"] },
+      raw: true,
+    });
+
+    if (!foundUser) {
+      throw new NotFoundError("Error: Can not find the user");
+    }
+
     try {
-      await UserService.foundUser(userId);
+      const r = await cloudinary.uploader.upload(imgPath, {
+        folder: "users",
+        public_id: `user_${userId}`,
+        overwrite: true,
+      });
+
+      if (!r) {
+        throw new BadRequestError("Error---: Can not update this user");
+      }
 
       const updatedUser = await User.update(
-        { ...payload },
+        {
+          image_url: r.secure_url,
+        },
         {
           where: {
             _id: userId,
@@ -68,28 +92,50 @@ class CustomerService {
         }
       );
 
-      if (!updatedUser) {
+      if (updatedUser.length === 0) {
         throw new NotFoundError("Error: Can not update this user");
       }
 
-      if (updatedUser) {
-        return {
-          user: omitInfoData({
-            fields: ["_id", "password"],
-            object: updatedUser,
-          }),
-        };
-      }
+      return {
+        user: omitInfoData({
+          fields: ["_id", "password"],
+          object: updatedUser,
+        }),
+      };
     } catch (error) {
       throw error;
     }
   }
 
-  static async addShipingAddres(userId, payload) {
+  static async addShipingAddress(userId, payload) {
+    // console.log(userId);
+    // console.log(payload);
+
+    // const address = `${payload.address} - ${payload.ward} - ${payload.district} - ${payload.province}`;
+
+    // console.log(address);
+
+    const foundUser = await User.findOne({
+      where: { _id: userId },
+      attributes: { exclude: ["password", "_id"] },
+      raw: true,
+    });
+
+    if (!foundUser) {
+      throw new NotFoundError("Error: Can not find the user");
+    }
+
+    // console.log(foundUser);
+
+    const address = `${payload.address} - ${payload.ward} - ${payload.district} - ${payload.province}`;
+
+    // console.log(address);
+
     const newAddress = await CustomerShippingAddress.create({
       customer_id: userId,
       ward_code: payload.ward_code,
-      address: payload.address,
+      address: address,
+      phone_number: payload.phone_number,
     });
 
     if (!newAddress) {
@@ -99,10 +145,37 @@ class CustomerService {
     }
 
     return {
-      newAddress: getInfoData({
-        fields: ["address"],
+      shipping_address: getInfoData({
+        fields: ["address", "phone_number"],
         object: newAddress,
       }),
+    };
+  }
+
+  static async getShippingAddresses(userId) {
+    const foundUser = await User.findOne({
+      where: { _id: userId },
+      attributes: { exclude: ["password", "_id"] },
+      raw: true,
+    });
+
+    if (!foundUser) {
+      throw new NotFoundError("Error: Can not find the user");
+    }
+
+    const shippingAddresses = await CustomerShippingAddress.findAll({
+      where: {
+        customer_id: userId,
+      },
+      attributes: { exclude: ["createdAt", "updatedAt", "customer_id"] },
+    });
+
+    if (!shippingAddresses) {
+      throw new NotFoundError("Error: Can not find address");
+    }
+
+    return {
+      shipping_ddresses: shippingAddresses,
     };
   }
 

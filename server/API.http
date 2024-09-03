@@ -4,7 +4,7 @@ POST http://localhost:3030/api/v1/access/sign-up
 Content-Type: application/json
 
 {
-    "email": "test2@gmail.com",
+    "email": "test9@gmail.com",
     "password": "123"
 }
 
@@ -13,7 +13,7 @@ POST http://localhost:3030/api/v1/access/login
 Content-Type: application/json
 
 {
-    "option": "test2@gmail.com",
+    "option": "test9@gmail.com",
     "password": "123"
 }
 
@@ -53,43 +53,108 @@ GET http://localhost:3030/api/v1/customer
 ### Get my info 
 GET http://localhost:3030/api/v1/customer/profile
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjYsImlhdCI6MTcyNTE4MDY3MywiZXhwIjoxNzI2MDQ0NjczfQ.lkMw4kKy-x2qJvlBwjIdcy6QH9VTmXCwNUziVOF1eX0
-
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjYsImlhdCI6MTcyNTM2NjIzNywiZXhwIjoxNzI2MjMwMjM3fQ.pkkbpx-eL1-uzbGuYB-1mlssgPThfCf71b1CA6MABiA
 
 ### update info
 PUT http://localhost:3030/api/v1/customer/update-profile
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTE3NjQwOCwiZXhwIjoxNzI2MDQwNDA4fQ.AQXEmE4VKmnT3HRuZPhYo00DMmb2utdBLn6eFtSty_4
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjYsImlhdCI6MTcyNTM2NjIzNywiZXhwIjoxNzI2MjMwMjM3fQ.pkkbpx-eL1-uzbGuYB-1mlssgPThfCf71b1CA6MABiA
 
 {
-    "phone_number": "01234567",
-    "user_name": "Nguyen",
+    "phone_number": "12323453456",
+    "last_name": "Nguyen",
     "first_name": "Thanh"
 }
 
-### update image 
-
-PUT http://localhost:3030/api/v1/customer/update-image
+### add shipping address
+POST http://localhost:3030/api/v1/customer/add-shipping-address
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTE3NjQwOCwiZXhwIjoxNzI2MDQwNDA4fQ.AQXEmE4VKmnT3HRuZPhYo00DMmb2utdBLn6eFtSty_4
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE1LCJpYXQiOjE3MjUzNjY2NTAsImV4cCI6MTcyNjIzMDY1MH0.psy6PlfkJFcac3RjPQRKxCs8RWkSqwA1IItd-2VAiWY
 
 {
-    "image_url": "img url"
+    "ward_code": "24796",
+    "province": "Tỉnh Lâm Đồng",
+    "district": "Thành phố Đà Lạt",
+    "ward": "Phường 10",
+    "address": "999 Trần Hưng Đạo",
+    "phone_number": "012323423498765"
 }
 
+### get all customer shipping address
+GET http://localhost:3030/api/v1/customer/shipping-addresses
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE1LCJpYXQiOjE3MjUzNjY2NTAsImV4cCI6MTcyNjIzMDY1MH0.psy6PlfkJFcac3RjPQRKxCs8RWkSqwA1IItd-2VAiWY
 
+### update image -- 
+
+# PUT http://localhost:3030/api/v1/customer/update-image
+# Content-Type: multipart/form-data
+# authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE3LCJpYXQiOjE3MjUzMzM1ODYsImV4cCI6MTcyNjE5NzU4Nn0.MT29SyEW9k4BPrwJRipYNy8PjHTuHVpetuhrBsfJIdU
+
+# --boundary
+# Content-Disposition: form-data; name="customerImage"; filename="test-img.jpg"
+# Content-Type: image/jpeg
+
+# < C:\Users\middm\OneDrive\Desktop\NodeJS\TMD\server\public\images\test-img.jpg
+# --boundary--
 ### SHOP
 GET http://localhost:3030/api/v1/shop
+
 ### register shop
 POST http://localhost:3030/api/v1/shop/register
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE2LCJpYXQiOjE3MjUxODEzODgsImV4cCI6MTcyNjA0NTM4OH0.ZTuP376bLib_hCQi5iShUBsChMiFzLozSa0i1fdlL9g
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE4LCJpYXQiOjE3MjUzNjkyMTAsImV4cCI6MTcyNjIzMzIxMH0.j0pIQ_-VM1vUHYfEXwQCOMijzFjLAvZYR2oCdy7W0-0
 
 {
-    "name": "shop test 2"
+    "name": "shop test 9"
 }
-###
-GET http://localhost:3030/api/v1/shop/profile
 
+### get shop info for owner
+GET http://localhost:3030/api/v1/shop/profile
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE2LCJpYXQiOjE3MjUxODEzODgsImV4cCI6MTcyNjA0NTM4OH0.ZTuP376bLib_hCQi5iShUBsChMiFzLozSa0i1fdlL9g
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE4LCJpYXQiOjE3MjUzNjkyMTAsImV4cCI6MTcyNjIzMzIxMH0.j0pIQ_-VM1vUHYfEXwQCOMijzFjLAvZYR2oCdy7W0-0
+
+### add product shop info for owner
+POST http://localhost:3030/api/v1/shop/add-product
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE4LCJpYXQiOjE3MjUzNjkyMTAsImV4cCI6MTcyNjIzMzIxMH0.j0pIQ_-VM1vUHYfEXwQCOMijzFjLAvZYR2oCdy7W0-0
+
+{
+    "name": "San pham 1",
+    "description": "Day la san pham 1 của shop 9",
+    "price": 100000,
+    "sale_price": 80000,
+    "stock_quantity": 100,
+    "brand_id": null,
+    "category_id": null
+}
+### update image -- 
+
+# PUT http://localhost:3030/api/v1/shop/update-image
+# Content-Type: multipart/form-data
+# authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE3LCJpYXQiOjE3MjUzMzM1ODYsImV4cCI6MTcyNjE5NzU4Nn0.MT29SyEW9k4BPrwJRipYNy8PjHTuHVpetuhrBsfJIdU
+
+# --boundary
+# Content-Disposition: form-data; name="customerImage"; filename="test-img.jpg"
+# Content-Type: image/jpeg
+
+# < C:\Users\middm\OneDrive\Desktop\NodeJS\TMD\server\public\images\test-img.jpg
+# --boundary--
+
+### view product shop info for owner
+
+### add product images
+POST http://localhost:3030/api/v1/shop/update-product-images
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE4LCJpYXQiOjE3MjUzNjkyMTAsImV4cCI6MTcyNjIzMzIxMH0.j0pIQ_-VM1vUHYfEXwQCOMijzFjLAvZYR2oCdy7W0-0
+
+{
+    
+    "name": "San pham 1",
+    "description": "Day la san pham 1 của shop 9",
+    "price": 100000,
+    "sale_price": 80000,
+    "stock_quantity": 100,
+    "brand_id": null,
+    "category_id": null
+}
