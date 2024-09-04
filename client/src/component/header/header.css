@@ -67,18 +67,19 @@ header .headerSearch .search .searchIcon {
 }
 
 .navButtonn {
-  border-radius: 3px;
+  border-radius: 5px;
   padding: 9px 30px;
   width: max-content;
   transition: ease-in-out 0.3s;
   display: flex;
+  border: 2px solid white;
 }
 
 .navButtonn:hover {
   color: white;
-  background-color: blue;
-
-  border: 1px solid rgb(241, 177, 39);
+  background-color: #2a55e5;
+  cursor: pointer;
+  border: 2px solid rgb(241, 177, 39);
 }
 
 .dropdownMenu {
@@ -90,6 +91,8 @@ header .headerSearch .search .searchIcon {
   height: auto;
   background: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  z-index: 100;
+  cursor: pointer;
 }
 
 .dropdownMenu li {
