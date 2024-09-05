@@ -3,6 +3,7 @@ import "./nav.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faHeadphones } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+
 const Nav = () => {
   return (
     <div className="nav d-flex align-items-center">
@@ -174,7 +175,22 @@ const Nav = () => {
                       </div>
 
                       <div className="col">
-                        <div className="ads"></div>
+                        <div className="ads">
+                          <img src="/IMG/Home/ads.png" alt="" />
+                          <div className="ads-content">
+                            <p
+                              style={{
+                                color: "white",
+                              }}
+                            >
+                              HOT DEALS
+                            </p>
+                            <p className="ads-c2">Đừng bỏ lỡ những ưu đãi</p>
+                            <p className="ads-c3">Tiết kiệm đến 50%</p>
+                            <p className="ads-c4">Mua sắm ngay</p>
+                          </div>
+                          <p className="discount">-50%</p>
+                        </div>
                       </div>
                     </div>
                   </div>
