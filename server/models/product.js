@@ -18,8 +18,9 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       this.belongsTo(models.Category, {
+        through: models.ProductCategory,
         foreignKey: "category_id",
-        as: "category",
+        as: "categories",
       });
 
       this.hasMany(models.ProductImage, {

@@ -190,17 +190,16 @@ class CustomerService {
     }
   }
 
-  static async addProductToCart() {}
+  static async getCart(userId) {}
+  static async addProductToCart(userId) {}
+  static async updateCart(userId) {}
+  static async deleteProductInCart(userId) {}
 
-  static async cacelOrder() {}
-
-  static async checkOutOrder() {}
-
-  static async viewProducts() {}
-
-  static async viewProductById() {}
-
-  static async viewShopById(shopId) {}
+  static async getOrders(userId) {}
+  static async createOrder(userId) {}
+  static async getOrderDetails(orderId) {}
+  static async reviewOrder(orderId) {}
+  static async cacelOrder(orderId) {}
 }
 
 module.exports = CustomerService;

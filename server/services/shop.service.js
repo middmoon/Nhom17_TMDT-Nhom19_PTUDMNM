@@ -7,7 +7,14 @@ const { NotFoundError, BadRequestError } = require("../core/error.response");
 
 const { getInfoData } = require("../utils");
 
-const { sequelize, User, Shop, UserRole, Product } = require("../models");
+const {
+  sequelize,
+  User,
+  Shop,
+  UserRole,
+  Product,
+  ProductImage,
+} = require("../models");
 const { createSlug } = require("../utils/slug");
 
 const cloudinary = require("../config/cloudinary.config");
@@ -174,30 +181,123 @@ class ShopService {
       throw new NotFoundError("Something wrong with your info: Not find shop");
     }
 
-    const slug = createSlug(payload.name);
+    const t = await sequelize.transaction();
 
-    const newProduct = await Product.create({
-      name: payload.name,
-      description: payload.description,
-      price: payload.price,
-      sale_price: payload.sale_price,
-      stock_quantity: payload.stock_quantity,
-      slug: slug,
-      shop_id: foundShop._id,
-      brand_id: payload.brand_id,
-      category_id: payload.category_id,
-    });
+    try {
+      const slug = createSlug(payload.name);
 
-    if (!newProduct) {
-      throw new BadRequestError("Can not add new product for your shop");
+      const newProduct = await Product.create(
+        {
+          name: payload.name,
+          description: payload.description,
+          price: payload.price,
+          sale_price: payload.sale_price,
+          stock_quantity: payload.stock_quantity,
+          slug: slug,
+          shop_id: foundShop._id,
+          brand_id: payload.brand_id,
+          category_id: payload.category_id,
+        },
+        { transaction: t }
+      );
+
+      if (!newProduct) {
+        throw new BadRequestError("Can not add new product for your shop");
+      }
+
+      if (payload.category_ids && Array.isArray(payload.category_ids)) {
+        await newProduct.setCategories(payload.category_ids, {
+          transaction: t,
+        });
+      }
+
+      await t.commit();
+
+      const productDetails = await Product.findOne({
+        where: { _id: newProduct._id },
+        include: [
+          { model: db.Category, as: "categories" },
+          { model: db.Brand, as: "brand" },
+        ],
+      });
+
+      return {
+        product: productDetails,
+      };
+    } catch (error) {
+      await t.rollback();
+      throw error;
     }
-
-    return {
-      newProduct,
-    };
   }
 
-  static async addProductImage(ownerId, file) {}
+  static async addProductImage(ownerId, productId, files) {
+    const foundUser = await User.findOne({
+      where: { _id: ownerId },
+      attributes: ["_id"],
+    });
+
+    if (!foundUser) {
+      throw new NotFoundError("Something wrong with your info: Not find user");
+    }
+
+    const foundShop = await Shop.findOne({
+      where: { seller_id: ownerId },
+      attributes: ["_id"],
+    });
+
+    if (!foundShop) {
+      throw new NotFoundError("Something wrong with your info: Not find shop");
+    }
+
+    // check max 6
+    const imgCount = await ProductImage.count({
+      where: { product_id: productId },
+    });
+
+    const remainingSlots = 6 - imgCount;
+
+    if (files.length > remainingSlots) {
+      throw new Error(
+        `ERR: Limit iamge is 6, you can only upload ${remainingSlots} images`
+      );
+    }
+
+    const uploadedImages = [];
+
+    const uploadPromises = files.map((file, index) => {
+      return new Promise((resolve, reject) => {
+        cloudinary.uploader.upload(file.path, function (error, result) {
+          if (error) {
+            throw new BadRequestError(
+              `Error: Can not push image ---- Erorr-Detail: ${error}`
+            );
+          }
+          // Create the hotel image in the database
+          console.log(`result--- ${result}`);
+
+          db.ProductImage.create({
+            product_id: productId,
+            url: result.url,
+          })
+            .then((uploadedImage) => {
+              console.log(`result URL--- ${result.url}`);
+
+              uploadedImages.push(result.url);
+              resolve(uploadedImage);
+            })
+            .catch((err) => {
+              throw new BadRequestError(
+                `Error: Can not push image into database ---- Erorr-Detail: ${err}`
+              );
+            });
+        });
+      });
+    });
+
+    await Promise.all(uploadPromises);
+
+    return uploadedImages;
+  }
 
   static async updateProductInfo() {}
 

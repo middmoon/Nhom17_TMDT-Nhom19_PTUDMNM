@@ -20,15 +20,26 @@ router
 
   .use(verifyToken)
   .use(verifySeller)
+  // profile
   .get("/profile", asyncHandler(ShopController.viewShop))
-
-  .post("/add-product", asyncHandler(ShopController.addProduct))
-  .post("/update-product-images", asyncHandler(ShopController.addProductImages))
-
   .put(
-    "/update-image",
+    "/profile-image",
     upload.single("customerImage"),
     asyncHandler(ShopController.updateShopImage)
-  );
+  )
+
+  // product
+
+  .post("/products", asyncHandler(ShopController.addProduct))
+  // .get("/products/:productId", asyncHandler(ShopController.addProduct))
+  // .delete("/products/:productId", asyncHandler(ShopController.addProduct))
+  // .put("/products/:productId", asyncHandler(ShopController.addProduct))
+  .post("/product-images", asyncHandler(ShopController.addProductImages));
+
+// order
+
+// .get("/order", asyncHandler(ShopController.addProduct))
+// .get("/order/:orderId", asyncHandler(ShopController.addProduct))
+// .put("/order/:orderId/status", asyncHandler(ShopController.addProduct));
 
 module.exports = router;

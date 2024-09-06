@@ -125,8 +125,8 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE4LCJpYXQiOjE3MjUz
     "price": 100000,
     "sale_price": 80000,
     "stock_quantity": 100,
-    "brand_id": null,
-    "category_id": null
+    "brand_id": 10,
+    "category_ids": [1, 2, 3]
 }
 ### update image -- 
 

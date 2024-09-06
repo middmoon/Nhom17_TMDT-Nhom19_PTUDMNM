@@ -6,6 +6,7 @@ router
   .use("/shop", require("./shop.route"))
   .use("/address", require("./address.route"))
   .use("/customer", require("./customer.route"))
+  .use("/p", require("./public.route"))
 
   .get("/", function (req, res, next) {
     res.render("index", { title: "TMDT CTK45A API V1" });
