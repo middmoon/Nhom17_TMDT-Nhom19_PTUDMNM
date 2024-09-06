@@ -97,6 +97,7 @@
   padding: 10px;
   max-height: 400px;
   background-color: white;
+  z-index: 99 !important;
 }
 .megaMenu h4 {
   color: rgb(241, 177, 39);

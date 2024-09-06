@@ -19,3 +19,8 @@
   border: 1px solid rgb(241, 241, 241);
   border-radius: 30px;
 }
+
+.slick-dots {
+  position: absolute;
+  bottom: 0;
+}

@@ -1,0 +1,40 @@
+.catSliderSection {
+  width: 100%;
+  height: auto;
+  padding: 30px 0px;
+}
+
+.cat_slider_Main .item {
+  width: 100% !important;
+  height: 150px;
+  background-color: #ccc;
+  padding: 15px;
+
+  margin: 2px;
+}
+.cat_slider_Main {
+  position: relative;
+}
+
+.cat_slider_Main .slick-slide {
+  padding-right: 10px !important;
+}
+.slick-arrow {
+  position: absolute;
+  z-index: 100;
+  top: 50%;
+}
+
+.cat_slider_Main .slick-arrow.slick-prev {
+  left: 1% !important;
+
+  color: black;
+  background-color: black;
+}
+
+.cat_slider_Main .slick-arrow.slick-next {
+  right: 1% !important;
+
+  color: black;
+  background-color: black;
+}
