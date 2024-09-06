@@ -13,32 +13,85 @@ const CatSlider = () => {
   return (
     <>
       <div className="catSliderSection">
-        <div className="container-fluid">
+        <div className="container-fluid catSliderSectionCtn">
           <h2 className="hd">Best Deals</h2>
           <div className="row">
-            <Slider {...settings} className="col-11 cat_slider_Main">
-              <div className="item">a</div>
-              <div className="item">b</div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item">b</div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item"></div>
-              <div className="item"></div>
+            <Slider {...settings} className=" cat_slider_Main">
+              <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div>
+              
+              <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div> <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div> <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div> <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div> <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div> <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div> <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div> <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div> <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div> <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div> <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div> <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div> <div className="item">
+                <div className="info">
+                <img src="/IMG/Home/T.png" alt="" />
+                <h5>Thời Trang Nam</h5>
+                </div>
+              </div>
             </Slider>
-            <div className="col-1">ádasd</div>
+            
           </div>
         </div>
       </div>
