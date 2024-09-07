@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../header/header.css";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import Logo from "../../assets/images/Logo.svg";
+// import Logo from "../../assets/images/Logo.svg";
 import {
   faCircleUser,
   faCartShopping,
@@ -30,7 +30,7 @@ const Header = () => {
         <div className="container-fluid">
           <div className="row">
             <div className=" col-lg-2 ">
-              <img src={Logo} alt="" />
+              {/* <img src={Logo} alt="" /> */}
             </div>
             {/* Header */}
             <div className=" col-lg-5 ">
