@@ -196,3 +196,11 @@
   right: 5%;
   z-index: 3;
 }
+
+.full-link {
+  display: block; /* Đảm bảo Link hoặc li bao phủ toàn bộ vùng */
+  padding: 5px 10px; /* Tạo khoảng cách xung quanh text */
+  width: 100%; /* Đảm bảo link bao phủ toàn bộ chiều rộng của li */
+  text-decoration: none; /* Loại bỏ gạch chân nếu cần */
+  color: inherit; /* Sử dụng màu mặc định của text */
+}

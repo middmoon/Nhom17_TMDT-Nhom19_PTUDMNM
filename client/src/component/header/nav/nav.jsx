@@ -13,35 +13,15 @@ const Nav = () => {
             <nav>
               <ul className="list list-inline mb-0">
                 <li className="list-inline-item">
-                  <Link to="/">
-                    Trang chính{" "}
-                    <FontAwesomeIcon
-                      icon={faCaretDown}
-                      style={{ padding: " 0px 5px" }}
-                    />
-                  </Link>
+                  <Link to="/">Trang chính </Link>
                 </li>
                 <li className="list-inline-item">
                   <Link>About</Link>
                 </li>
                 <li className="list-inline-item">
-                  <Link>
-                    Shop{" "}
-                    <FontAwesomeIcon
-                      icon={faCaretDown}
-                      style={{ padding: " 0px 5px" }}
-                    />
-                  </Link>
+                  <Link>Shop </Link>
                 </li>
-                <li className="list-inline-item">
-                  <Link>
-                    Nhà cung cấp{" "}
-                    <FontAwesomeIcon
-                      icon={faCaretDown}
-                      style={{ padding: " 0px 5px" }}
-                    />
-                  </Link>
-                </li>
+
                 <li className="list-inline-item position-static">
                   <Link>
                     Menu tổng{" "}
@@ -216,12 +196,30 @@ const Nav = () => {
                   <div className="dropdown_menu Drop_Page mt-3">
                     <ul style={{ paddingLeft: "0" }}>
                       <li>
-                        <Link to="/about">About us</Link>
+                        <Link to="/about" className="full-link">
+                          About us
+                        </Link>
                       </li>
-                      <li>Liên hệ</li>
-                      <li>Hướng dẫn thanh toán</li>
-                      <li>dịch vụ</li>
-                      <li>Điều khoản</li>
+                      <li>
+                        <Link to="" className="full-link">
+                          Liên hệ
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="" className="full-link">
+                          Hướng dẫn thanh toán
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="" className="full-link">
+                          dịch vụ
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="" className="full-link">
+                          Điều Khoản
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                 </li>
