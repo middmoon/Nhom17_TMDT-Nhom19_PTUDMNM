@@ -33,8 +33,8 @@ class PublicController {
 
   getBrands = async (req, res, next) => {
     new OK({
-      message: "update shop image OK",
-      metadata: await PublicService.getBrands(req.params),
+      message: "get brand list OK",
+      metadata: await PublicService.getBrands(),
     }).send(res);
   };
 

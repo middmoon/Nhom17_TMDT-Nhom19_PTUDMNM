@@ -60,14 +60,14 @@ class PublicService {
 
     try {
       // Tìm sản phẩm dựa trên các tiêu chí
-      const products = await db.Product.findAndCountAll({
+      const products = await Product.findAndCountAll({
         where: filters,
         limit: parseInt(limit),
         offset: parseInt(offset),
         order: [[sortBy, order]],
         include: [
-          { model: db.Category, as: "category" },
-          { model: db.Brand, as: "brand" },
+          { model: Category, as: "category" },
+          { model: Brand, as: "brand" },
         ],
       });
 
@@ -76,10 +76,10 @@ class PublicService {
       }
 
       // Tìm danh mục chứa sản phẩm theo keyword
-      const categories = await db.Category.findAll({
+      const categories = await Category.findAll({
         include: [
           {
-            model: db.Product,
+            model: Product,
             where: keyword ? { name: { [Op.like]: `%${keyword}%` } } : {},
           },
         ],
@@ -90,10 +90,10 @@ class PublicService {
       }
 
       // Tìm thương hiệu chứa sản phẩm theo keyword
-      const brands = await db.Brand.findAll({
+      const brands = await Brand.findAll({
         include: [
           {
-            model: db.Product,
+            model: Product,
             where: keyword ? { name: { [Op.like]: `%${keyword}%` } } : {},
           },
         ],
@@ -123,10 +123,48 @@ class PublicService {
 
   static async getProductDetails(productId) {}
 
-  static async getCategories() {}
+  static async getCategories() {
+    const categories = await Category.findAll();
+
+    if (!categories) {
+      throw new NotFoundError("ERR: Can not get categories");
+    }
+
+    const baseUrl = "http://localhost:3030";
+
+    const r = categories.map((category) => {
+      return {
+        ...category.dataValues, // Get the original data
+        image_url: `${baseUrl}${category.image_url}`, // Prepend the base URL to image_url
+      };
+    });
+
+    return {
+      categories: r,
+    };
+  }
   static async getProductsByCategory(categoryId) {}
 
-  static async getBrands() {}
+  static async getBrands() {
+    const brands = await Brand.findAll();
+
+    if (!brands) {
+      throw new NotFoundError("ERR: Can not get categories");
+    }
+
+    const baseUrl = "http://localhost:3030";
+
+    const r = brands.map((brand) => {
+      return {
+        ...brand.dataValues,
+        image_url: `${baseUrl}${brand.image_url}`, // Prepend the base URL to image_url
+      };
+    });
+
+    return {
+      brands: r,
+    };
+  }
   static async getProductsByBrand(brandId) {}
 
   static async getShopDetails() {}
