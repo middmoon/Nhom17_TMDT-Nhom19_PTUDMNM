@@ -6,8 +6,6 @@ const { NotFoundError, BadRequestError } = require("../core/error.response");
 const { getInfoData, omitInfoData } = require("../utils");
 const UserService = require("./user.service");
 const cloudinary = require("../config/cloudinary.config");
-const { pullAll } = require("lodash");
-const { where } = require("sequelize");
 
 class CustomerService {
   static async getUserInfoById(userId) {
@@ -188,6 +186,10 @@ class CustomerService {
     if (!deletedAddress) {
       throw new NotFoundError("Error: Can not delete this address");
     }
+
+    return {
+      deletedAddress,
+    };
   }
 
   static async getCart(userId) {}

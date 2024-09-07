@@ -2,7 +2,7 @@
 const { OK, CREATED } = require("../core/success.response");
 const CustomerService = require("../services/customer.service");
 
-class UserController {
+class CustomerController {
   // profile
   getInfoById = async (req, res, next) => {
     new OK({
@@ -120,4 +120,4 @@ class UserController {
   };
 }
 
-module.exports = new UserController();
+module.exports = new CustomerController();

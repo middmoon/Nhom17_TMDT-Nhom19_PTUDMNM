@@ -14,6 +14,8 @@ const {
   UserRole,
   Product,
   ProductImage,
+  Category,
+  Brand,
 } = require("../models");
 const { createSlug } = require("../utils/slug");
 
@@ -169,7 +171,7 @@ class ShopService {
     });
 
     if (!foundUser) {
-      throw new NotFoundError("Something wrong with your info: Not find user");
+      throw new NotFoundError("User not found with the given information");
     }
 
     const foundShop = await Shop.findOne({
@@ -178,7 +180,7 @@ class ShopService {
     });
 
     if (!foundShop) {
-      throw new NotFoundError("Something wrong with your info: Not find shop");
+      throw new NotFoundError("Shop not found with the given information");
     }
 
     const t = await sequelize.transaction();
@@ -201,10 +203,6 @@ class ShopService {
         { transaction: t }
       );
 
-      if (!newProduct) {
-        throw new BadRequestError("Can not add new product for your shop");
-      }
-
       if (payload.category_ids && Array.isArray(payload.category_ids)) {
         await newProduct.setCategories(payload.category_ids, {
           transaction: t,
@@ -216,8 +214,8 @@ class ShopService {
       const productDetails = await Product.findOne({
         where: { _id: newProduct._id },
         include: [
-          { model: db.Category, as: "categories" },
-          { model: db.Brand, as: "brand" },
+          { model: Category, as: "categories" },
+          { model: Brand, as: "brand" },
         ],
       });
 
@@ -249,7 +247,7 @@ class ShopService {
       throw new NotFoundError("Something wrong with your info: Not find shop");
     }
 
-    // check max 6
+    // Check if the number of images exceeds the limit (6 images max)
     const imgCount = await ProductImage.count({
       where: { product_id: productId },
     });
@@ -257,46 +255,34 @@ class ShopService {
     const remainingSlots = 6 - imgCount;
 
     if (files.length > remainingSlots) {
-      throw new Error(
-        `ERR: Limit iamge is 6, you can only upload ${remainingSlots} images`
+      throw new BadRequestError(
+        `Error: Limit is 6 images. You can only upload ${remainingSlots} more images.`
       );
     }
 
     const uploadedImages = [];
 
-    const uploadPromises = files.map((file, index) => {
-      return new Promise((resolve, reject) => {
-        cloudinary.uploader.upload(file.path, function (error, result) {
-          if (error) {
-            throw new BadRequestError(
-              `Error: Can not push image ---- Erorr-Detail: ${error}`
-            );
-          }
-          // Create the hotel image in the database
-          console.log(`result--- ${result}`);
-
-          db.ProductImage.create({
-            product_id: productId,
-            url: result.url,
-          })
-            .then((uploadedImage) => {
-              console.log(`result URL--- ${result.url}`);
-
-              uploadedImages.push(result.url);
-              resolve(uploadedImage);
-            })
-            .catch((err) => {
-              throw new BadRequestError(
-                `Error: Can not push image into database ---- Erorr-Detail: ${err}`
-              );
-            });
+    // Use async/await with Promise.all for cleaner code
+    const uploadPromises = files.map(async (file) => {
+      try {
+        const result = await cloudinary.uploader.upload(file.path);
+        const uploadedImage = await ProductImage.create({
+          product_id: productId,
+          url: result.url,
         });
-      });
+
+        uploadedImages.push(result.url);
+        return uploadedImage;
+      } catch (error) {
+        throw new BadRequestError(
+          `Error: Could not upload image or save to the database - Error: ${error.message}`
+        );
+      }
     });
 
     await Promise.all(uploadPromises);
 
-    return uploadedImages;
+    return { uploadedImages };
   }
 
   static async updateProductInfo() {}

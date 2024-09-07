@@ -76,9 +76,6 @@ module.exports = (sequelize, DataTypes) => {
       brand_id: {
         type: DataTypes.INTEGER,
       },
-      category_id: {
-        type: DataTypes.INTEGER,
-      },
     },
     {
       sequelize,

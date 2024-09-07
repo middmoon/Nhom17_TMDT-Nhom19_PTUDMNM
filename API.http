@@ -114,16 +114,16 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTUz
 ### get shop info for owner
 GET http://localhost:3030/api/v1/shop/profile
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTUzMTQxMSwiZXhwIjoxNzI2Mzk1NDExfQ.zl6vBG4Xtu7TtWEXZyZ2xTz3o1Rz1vVUDu26xsWH5Qc
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTY5NDEyNywiZXhwIjoxNzI2NTU4MTI3fQ.pOKnHrJGkwj3WJqlYZuHKN5M-0vRNojFnF53hf6JLOg
 
 ### add product shop info for owner
 POST http://localhost:3030/api/v1/shop/products
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTUzMTQxMSwiZXhwIjoxNzI2Mzk1NDExfQ.zl6vBG4Xtu7TtWEXZyZ2xTz3o1Rz1vVUDu26xsWH5Qc
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTY5NDEyNywiZXhwIjoxNzI2NTU4MTI3fQ.pOKnHrJGkwj3WJqlYZuHKN5M-0vRNojFnF53hf6JLOg
 
 {
-    "name": "San pham 1",
-    "description": "Day la san pham 1 của shop 9",
+    "name": "San pham 7",
+    "description": "Day la san pham 7 của shop 9",
     "price": 100000,
     "sale_price": 80000,
     "stock_quantity": 100,
@@ -166,7 +166,7 @@ GET http://localhost:3030/api/v1/p/shop/:shopId
 # Content-Type: multipart/form-data
 # authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE3LCJpYXQiOjE3MjUzMzM1ODYsImV4cCI6MTcyNjE5NzU4Nn0.MT29SyEW9k4BPrwJRipYNy8PjHTuHVpetuhrBsfJIdU
 
-# POST http://localhost:3030/api/v1/shop/product-images
+# POST http://localhost:3030/api/v1/shop/product-images/:productId
 # Content-Type: application/json
 # authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjE4LCJpYXQiOjE3MjUzNjkyMTAsImV4cCI6MTcyNjIzMzIxMH0.j0pIQ_-VM1vUHYfEXwQCOMijzFjLAvZYR2oCdy7W0-0
 

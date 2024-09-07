@@ -34,9 +34,9 @@ class ShopController {
   addProductImages = async (req, res, next) => {
     new OK({
       message: "update shop image OK",
-      metadata: await ShopService.updateShopImage(
+      metadata: await ShopService.addProductImage(
         req._id,
-        req.product_id,
+        req.params.productId,
         req.files
       ),
     }).send(res);

@@ -34,7 +34,11 @@ router
   // .get("/products/:productId", asyncHandler(ShopController.addProduct))
   // .delete("/products/:productId", asyncHandler(ShopController.addProduct))
   // .put("/products/:productId", asyncHandler(ShopController.addProduct))
-  .post("/product-images", asyncHandler(ShopController.addProductImages));
+  .post(
+    "/product-images/:productId",
+    upload.array("productImages"),
+    asyncHandler(ShopController.addProductImages)
+  );
 
 // order
 
