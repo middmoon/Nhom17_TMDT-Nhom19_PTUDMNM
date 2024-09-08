@@ -1,10 +1,7 @@
 /server/node_modules
 /server/.env
 /server/package-lock.json
-<<<<<<< HEAD
-/server/T
-=======
+
 /client/node_modules
 /client/.env
 /client/package-lock.json
->>>>>>> a25da10bdef4da8c21d0617b41cc20ef0758dd79
