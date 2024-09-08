@@ -14,7 +14,7 @@ class AccessController {
     const { accessToken } = await AccessService.login(req.body);
     res.cookie("accessToken", accessToken, {
       maxAge: 100 * 60 * 1000,
-      httpOnly: true,
+      httpOnly: false,
       secure: false,
       path: "/",
       sameSite: "strict",

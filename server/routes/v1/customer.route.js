@@ -35,10 +35,10 @@ router
     "/shipping-address/:shippingAddressId",
     asyncHandler(CustomerController.updateShippingAddress)
   )
-  .delete(
-    "/shipping-address/:shippingAddressId",
-    asyncHandler(CustomerController.deleteShipingAddres)
-  )
+  // .delete(
+  //   "/shipping-address/:shippingAddressId",
+  //   asyncHandler(CustomerController.deleteShipingAddres)
+  // )
   // cart
   .get("/cart", function (req, res, next) {
     res.render("index", { title: "thông tin giỏ hàng" });
