@@ -18,6 +18,7 @@ function App() {
         <Route exact={true} path="/Login" element={<Login />} />
         <Route exact={true} path="/Register" element={<Register />} />
         {/* Thái */}
+        {/* Thành */}
       </Routes>
     </BrowserRouter>
   );
