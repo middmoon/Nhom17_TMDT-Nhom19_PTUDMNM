@@ -1,7 +1,7 @@
 "use strict";
 
 require("dotenv").config();
-const { sequelize, User, CustomerShippingAddress } = require("../models");
+const { sequelize, User, CustomerShippingAddress, Role } = require("../models");
 const { NotFoundError, BadRequestError } = require("../core/error.response");
 const { getInfoData, omitInfoData } = require("../utils");
 const UserService = require("./user.service");
@@ -14,6 +14,23 @@ class CustomerService {
       attributes: { exclude: ["password", "_id"] },
       raw: true,
     });
+
+    const isSeller = await User.findOne({
+      where: { _id: userId },
+      include: {
+        model: Role,
+        as: "roles",
+        where: { name: "seller" },
+        attributes: ["name"],
+      },
+      attributes: ["_id"],
+    });
+
+    if (isSeller) {
+      foundUser.isSeller = true;
+    } else {
+      foundUser.isSeller = false;
+    }
 
     if (!foundUser) {
       throw new NotFoundError("Error: Can not find the user");

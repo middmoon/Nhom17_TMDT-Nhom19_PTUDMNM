@@ -1,7 +1,7 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
-const { AuthFailureError } = require("../core/error.response");
+const { AuthFailureError, BadRequestError } = require("../core/error.response");
 
 const { Shop, Role, UserRole, User } = require("../models");
 
@@ -48,7 +48,7 @@ const checkRole = asyncHandler(async (req, res, next, roleName) => {
   if (foundUser && foundUser.roles.length > 0) {
     next();
   } else {
-    throw new AuthFailureError("Insufficient privileges");
+    return next(new AuthFailureError("Insufficient privileges"));
   }
 });
 
