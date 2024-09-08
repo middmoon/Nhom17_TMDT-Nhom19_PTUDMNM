@@ -57,6 +57,8 @@ const Header = () => {
     if (accessToken) fetchUser();
   }, [accessToken]);
 
+  // tạo shop
+
   const handleLogout = () => {
     logoutUser(navigate, setError);
   };
@@ -147,6 +149,7 @@ const Header = () => {
                       Giỏ hàng
                     </div>
                   </div>
+
                   <div className="loginNav">
                     <div className="navButtonn">
                       <FontAwesomeIcon
