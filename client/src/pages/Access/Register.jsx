@@ -54,29 +54,17 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <div className="background2"></div>
-      <div className="bg2">
-        <div className="content2">
-          <h2 className="logo">
-            <FontAwesomeIcon icon={faCircleHalfStroke} /> MidMoonBooking
-          </h2>
-          <div className="text-sci">
-            <h2>
-              Welcome!! <br />
-              <span>To our new Website</span>
-            </h2>
-            <p>
-              For more than 20 years MidMoonBooking.com has been making it
-              easier for travellers everywhere to experience the world. We
-              provide an unrivalled experience for your customers and a digital
-              experience optimised to drive revenue.
-            </p>
-          </div>
-        </div>
-        <div className="logreg-box2">
-          <div className="form-box login">
-            <form onSubmit={handleSubmit}>
+    <div className="bgr">
+      <div className="container-fluid w-100">
+        <div className="Login_Ctn">
+          <div className="Login_ctnn">
+            <div className="Form-BackGrn2">
+              <h1>Đăng ký</h1>
+              <p>Truy cập vào giỏ hàng của bạn</p>
+              <p>Wishlist và Sản phẩm khuyến nghị</p>
+              <img src="/IMG/Home/regis.png" alt="" />
+            </div>
+            <form className="Form-login" onSubmit={handleSubmit}>
               <h2>Register</h2>
               <div className="imput-box">
                 <input

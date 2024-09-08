@@ -50,6 +50,8 @@ const Header = () => {
     if (accessToken) fetchUser();
   }, [accessToken]);
 
+  // tạo shop
+
   const handleLogout = () => {
     logoutUser(navigate, setError);
   };
@@ -125,6 +127,7 @@ const Header = () => {
                       <FontAwesomeIcon icon={faCartShopping} style={{ fontSize: "25px", paddingRight: "10px" }} /> Giỏ hàng
                     </div>
                   </div>
+
                   <div className="loginNav">
                     <div className="navButtonn">
                       <FontAwesomeIcon icon={faShop} style={{ fontSize: "25px", paddingRight: "10px" }} />{" "}
