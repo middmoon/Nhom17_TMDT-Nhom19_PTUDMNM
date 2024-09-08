@@ -4,11 +4,7 @@ import "../header/header.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../../pages/Access/Request/Request.js";
-import {
-  faCircleUser,
-  faCartShopping,
-  faShop,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faCartShopping, faShop } from "@fortawesome/free-solid-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Select from "../selectDrop/select";
@@ -43,10 +39,7 @@ const Header = () => {
           "Content-Type": "application/json",
           Authorization: `${accessToken}`,
         };
-        const response = await axios.get(
-          " http://localhost:3030/api/v1/customer/profile",
-          { headers }
-        );
+        const response = await axios.get(" http://localhost:3030/api/v1/customer/profile", { headers });
         setCurentUser(response.data.metadata.user);
         console.log(curentUser);
       } catch (error) {
@@ -73,10 +66,7 @@ const Header = () => {
 
                 <div className="search">
                   <input type="text" placeholder="Tìm kiếm sản phẩm" />
-                  <FontAwesomeIcon
-                    icon={faMagnifyingGlass}
-                    className="searchIcon"
-                  />
+                  <FontAwesomeIcon icon={faMagnifyingGlass} className="searchIcon" />
                 </div>
               </div>
             </div>
@@ -93,29 +83,21 @@ const Header = () => {
               {curentUser ? (
                 <>
                   <div className="btnNav">
-                    <div
-                      className="loginNav"
-                      onClick={() => setisOpenDropDown(!isOpenDropDown)}
-                    >
+                    <div className="loginNav" onClick={() => setisOpenDropDown(!isOpenDropDown)}>
                       <div className="navButtonn">
-                        <FontAwesomeIcon
-                          icon={faCircleUser}
-                          style={{ fontSize: "25px", paddingRight: "10px" }}
-                        />{" "}
-                        {curentUser.email}
+                        <FontAwesomeIcon icon={faCircleUser} style={{ fontSize: "25px", paddingRight: "10px" }} /> {curentUser.email}
                       </div>
                     </div>
                     {isOpenDropDown !== false && (
-                      <ClickAwayListener
-                        onClickAway={() => setisOpenDropDown(false)}
-                      >
+                      <ClickAwayListener onClickAway={() => setisOpenDropDown(false)}>
                         <ul className="dropdownMenu">
                           <li>
-                            <Link
-                              to="/"
-                              className="full-link"
-                              onClick={handleLogout}
-                            >
+                            <Link to="/my-profile" className="full-link">
+                              Thông tin cá nhân
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/" className="full-link" onClick={handleLogout}>
                               Đăng xuất
                             </Link>
                           </li>
@@ -140,41 +122,25 @@ const Header = () => {
                   </div>
                   <div className="loginNav">
                     <div className="navButtonn">
-                      <FontAwesomeIcon
-                        icon={faCartShopping}
-                        style={{ fontSize: "25px", paddingRight: "10px" }}
-                      />{" "}
-                      Giỏ hàng
+                      <FontAwesomeIcon icon={faCartShopping} style={{ fontSize: "25px", paddingRight: "10px" }} /> Giỏ hàng
                     </div>
                   </div>
                   <div className="loginNav">
                     <div className="navButtonn">
-                      <FontAwesomeIcon
-                        icon={faShop}
-                        style={{ fontSize: "25px", paddingRight: "10px" }}
-                      />{" "}
+                      <FontAwesomeIcon icon={faShop} style={{ fontSize: "25px", paddingRight: "10px" }} />{" "}
                       {curentUser.isSeller ? "Bán hàng" : "Tạo gian hàng"}
                     </div>
                   </div>
                 </>
               ) : (
                 <div className="btnNav">
-                  <div
-                    className="loginNav"
-                    onClick={() => setisOpenDropDown(!isOpenDropDown)}
-                  >
+                  <div className="loginNav" onClick={() => setisOpenDropDown(!isOpenDropDown)}>
                     <div className="navButtonn">
-                      <FontAwesomeIcon
-                        icon={faCircleUser}
-                        style={{ fontSize: "25px", paddingRight: "10px" }}
-                      />{" "}
-                      Tài khoản
+                      <FontAwesomeIcon icon={faCircleUser} style={{ fontSize: "25px", paddingRight: "10px" }} /> Tài khoản
                     </div>
                   </div>
                   {isOpenDropDown !== false && (
-                    <ClickAwayListener
-                      onClickAway={() => setisOpenDropDown(false)}
-                    >
+                    <ClickAwayListener onClickAway={() => setisOpenDropDown(false)}>
                       <ul className="dropdownMenu">
                         <li>
                           <Link to="/Login" className="full-link">
