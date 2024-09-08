@@ -4,17 +4,28 @@
   padding: 30px 0px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  background-color: #ffd4d4;
 }
 
 .brandSectionCtn {
   max-width: 1700px;
 }
+.brandSectionCtn1 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.brandSectionCtn1 .filterTab li a:hover {
+  transform: translateY(-5px);
+  color: rgb(253, 0, 0);
+}
 .BrandMain {
-  padding-top: 30px;
+  padding-top: 20px;
 }
 .BrandMain .slick-slide {
-  padding-right: 10px !important;
+  padding-right: 20px !important;
   width: max-content;
 }
 
@@ -30,12 +41,14 @@
   width: 100%;
   min-width: 150px;
   height: auto;
-  border: 2px solid #ffc0c0;
+
   padding: 15px;
   border-radius: 10px;
   margin: 2px;
   transition: ease-in-out 0.3s;
-  min-height: 235px;
+  min-height: 448px;
+  /* background: linear-gradient(to right, #ffffffb3, #ff9494); */
+  background-color: white;
   z-index: 100;
 }
 
@@ -96,8 +109,10 @@
   width: 100%;
   max-width: 300px;
   min-height: 300px;
-  object-fit: cover;
+  background-color: #eeeeee;
+  max-height: 300px;
   border-radius: 10px;
+  object-fit: cover;
 }
 
 .BrandMain .item .BrandCtn h1 {
@@ -114,8 +129,7 @@
   transition: ease-in-out 0.3s;
 }
 
-
-.BrandMain .item .BrandCtn p:hover{
-  background-color:#ff4949 ;
+.BrandMain .item .BrandCtn p:hover {
+  background-color: #ff4949;
   transform: translateY(-5px);
 }

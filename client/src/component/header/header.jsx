@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../header/header.css";
+import { Link } from "react-router-dom";
 import NavDropdown from "react-bootstrap/NavDropdown";
 // import Logo from "../../assets/images/Logo.svg";
 import {
@@ -29,9 +30,7 @@ const Header = () => {
       <header>
         <div className="container-fluid">
           <div className="row">
-            <div className=" col-lg-2 ">
-              {/* <img src={Logo} alt="" /> */}
-            </div>
+            <div className=" col-lg-2 ">{/* <img src={Logo} alt="" /> */}</div>
             {/* Header */}
             <div className=" col-lg-5 ">
               <div className="headerSearch ">
@@ -73,10 +72,31 @@ const Header = () => {
                     onClickAway={() => setisOpenDropDown(false)}
                   >
                     <ul className="dropdownMenu">
-                      <li>Đăng nhập</li>
-                      <li>Đơn hàng</li>
-                      <li>Wishlist</li>
-                      <li>Mã giảm giá</li>
+                      <li>
+                        <Link to="/Login" className="full-link">
+                          Đăng nhập
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/Register" className="full-link">
+                          Đăng ký
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/Login" className="full-link">
+                          Đơn hàng
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/Login" className="full-link">
+                          Wishlist
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/Login" className="full-link">
+                          Mã giảm giá
+                        </Link>
+                      </li>
                     </ul>
                   </ClickAwayListener>
                 )}

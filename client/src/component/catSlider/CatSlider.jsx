@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./CatSlider.css";
 import Slider from "react-slick";
+import axios from "axios";
 import CategoryAPI from "../APIclone/CategoryAPI";
 const CatSlider = () => {
+  const [categories, setCategories] = useState([]);
   var settings = {
     infinite: true,
     speed: 500,
     slidesToShow: 10,
     slidesToScroll: 5,
   };
+  useEffect(() => {
+    const fetchCate = async () => {
+      try {
+        const headers = {
+          "Content-Type": "application/json",
+        };
+        const response = await axios.get(
+          " http://localhost:3030/api/v1/p/categories",
+          { headers }
+        );
+        setCategories(response.data.metadata.categories);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu", error);
+      }
+    };
 
+    fetchCate();
+  }, []);
   return (
     <>
       <div className="catSliderSection">
@@ -17,12 +36,12 @@ const CatSlider = () => {
           <h2 className="hd">Danh sách các loại mặt hàng</h2>
           <div className="row">
             <Slider {...settings} className=" cat_slider_Main">
-              {CategoryAPI.map((item) => {
+              {categories.map((item) => {
                 return (
-                  <div className="item" key={item.id}>
+                  <div className="item" key={item._id}>
                     <div className="info">
-                      <img src={item.image_categories} alt="" />
-                      <h5>{item.Name}</h5>
+                      <img src={item.image_url} alt="" />
+                      <h5>{item.name}</h5>
                     </div>
                   </div>
                 );
