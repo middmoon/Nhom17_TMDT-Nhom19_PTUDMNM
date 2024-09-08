@@ -91,52 +91,72 @@ const Header = () => {
             >
               {/*User login*/}
               {curentUser ? (
-                <div className="btnNav">
-                  <div
-                    className="loginNav"
-                    onClick={() => setisOpenDropDown(!isOpenDropDown)}
-                  >
+                <>
+                  <div className="btnNav">
+                    <div
+                      className="loginNav"
+                      onClick={() => setisOpenDropDown(!isOpenDropDown)}
+                    >
+                      <div className="navButtonn">
+                        <FontAwesomeIcon
+                          icon={faCircleUser}
+                          style={{ fontSize: "25px", paddingRight: "10px" }}
+                        />{" "}
+                        {curentUser.email}
+                      </div>
+                    </div>
+                    {isOpenDropDown !== false && (
+                      <ClickAwayListener
+                        onClickAway={() => setisOpenDropDown(false)}
+                      >
+                        <ul className="dropdownMenu">
+                          <li>
+                            <Link
+                              to="/"
+                              className="full-link"
+                              onClick={handleLogout}
+                            >
+                              Đăng xuất
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/Login" className="full-link">
+                              Đơn hàng
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/Login" className="full-link">
+                              Wishlist
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/Login" className="full-link">
+                              Mã giảm giá
+                            </Link>
+                          </li>
+                        </ul>
+                      </ClickAwayListener>
+                    )}
+                  </div>
+                  <div className="loginNav">
                     <div className="navButtonn">
                       <FontAwesomeIcon
-                        icon={faCircleUser}
+                        icon={faCartShopping}
                         style={{ fontSize: "25px", paddingRight: "10px" }}
                       />{" "}
-                      {curentUser.email}
+                      Giỏ hàng
                     </div>
                   </div>
-                  {isOpenDropDown !== false && (
-                    <ClickAwayListener
-                      onClickAway={() => setisOpenDropDown(false)}
-                    >
-                      <ul className="dropdownMenu">
-                        <li>
-                          <Link
-                            to="/"
-                            className="full-link"
-                            onClick={handleLogout}
-                          >
-                            Đăng xuất
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/Login" className="full-link">
-                            Đơn hàng
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/Login" className="full-link">
-                            Wishlist
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/Login" className="full-link">
-                            Mã giảm giá
-                          </Link>
-                        </li>
-                      </ul>
-                    </ClickAwayListener>
-                  )}
-                </div>
+                  <div className="loginNav">
+                    <div className="navButtonn">
+                      <FontAwesomeIcon
+                        icon={faShop}
+                        style={{ fontSize: "25px", paddingRight: "10px" }}
+                      />{" "}
+                      {curentUser.isSeller ? "Bán hàng" : "Tạo gian hàng"}
+                    </div>
+                  </div>
+                </>
               ) : (
                 <div className="btnNav">
                   <div
@@ -186,25 +206,6 @@ const Header = () => {
                   )}
                 </div>
               )}
-
-              <div className="loginNav">
-                <div className="navButtonn">
-                  <FontAwesomeIcon
-                    icon={faCartShopping}
-                    style={{ fontSize: "25px", paddingRight: "10px" }}
-                  />{" "}
-                  Giỏ hàng
-                </div>
-              </div>
-              <div className="loginNav">
-                <div className="navButtonn">
-                  <FontAwesomeIcon
-                    icon={faShop}
-                    style={{ fontSize: "25px", paddingRight: "10px" }}
-                  />{" "}
-                  Bán hàng
-                </div>
-              </div>
             </div>
           </div>
         </div>
