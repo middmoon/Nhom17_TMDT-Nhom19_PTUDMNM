@@ -1,0 +1,14 @@
+.Login_Ctn {
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Form-BackGrn {
+  width: 500px;
+}
+.Form-login {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

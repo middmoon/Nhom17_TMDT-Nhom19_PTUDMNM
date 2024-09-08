@@ -12,7 +12,7 @@ const Home = () => {
     if (parts.length === 2) return parts.pop().split(";").shift();
   }
   const accessToken = getCookie("accessToken");
-
+  console.log(accessToken);
   return (
     <div>
       <HomeSlider />

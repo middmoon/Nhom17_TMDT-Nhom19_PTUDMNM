@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../header/header.css";
 import { Link } from "react-router-dom";
-import NavDropdown from "react-bootstrap/NavDropdown";
-// import Logo from "../../assets/images/Logo.svg";
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../../pages/Access/Request/Request.js";
 import {
   faCircleUser,
   faCartShopping,
@@ -15,6 +16,9 @@ import { ClickAwayListener } from "@mui/base/ClickAwayListener";
 import Nav from "./nav/nav.jsx";
 const Header = () => {
   const [isOpenDropDown, setisOpenDropDown] = useState(false);
+  const [curentUser, setCurentUser] = useState(null);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([
     "Tất cả",
     "Điện thoại",
@@ -25,6 +29,37 @@ const Header = () => {
     "Chăm sóc sắc đẹp",
     "Thực phẩm",
   ]);
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+  const accessToken = getCookie("accessToken");
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const headers = {
+          "Content-Type": "application/json",
+          Authorization: `${accessToken}`,
+        };
+        const response = await axios.get(
+          " http://localhost:3030/api/v1/customer/profile",
+          { headers }
+        );
+        setCurentUser(response.data.metadata.user);
+        console.log(curentUser);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu", error);
+        setCurentUser(null);
+      }
+    };
+    if (accessToken) fetchUser();
+  }, [accessToken]);
+
+  const handleLogout = () => {
+    logoutUser(navigate, setError);
+  };
   return (
     <>
       <header>
@@ -54,53 +89,103 @@ const Header = () => {
                 display: "flex",
               }}
             >
-              <div className="btnNav">
-                <div
-                  className="loginNav"
-                  onClick={() => setisOpenDropDown(!isOpenDropDown)}
-                >
-                  <div className="navButtonn">
-                    <FontAwesomeIcon
-                      icon={faCircleUser}
-                      style={{ fontSize: "25px", paddingRight: "10px" }}
-                    />{" "}
-                    Tài khoản
-                  </div>
-                </div>
-                {isOpenDropDown !== false && (
-                  <ClickAwayListener
-                    onClickAway={() => setisOpenDropDown(false)}
+              {/*User login*/}
+              {curentUser ? (
+                <div className="btnNav">
+                  <div
+                    className="loginNav"
+                    onClick={() => setisOpenDropDown(!isOpenDropDown)}
                   >
-                    <ul className="dropdownMenu">
-                      <li>
-                        <Link to="/Login" className="full-link">
-                          Đăng nhập
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/Register" className="full-link">
-                          Đăng ký
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/Login" className="full-link">
-                          Đơn hàng
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/Login" className="full-link">
-                          Wishlist
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/Login" className="full-link">
-                          Mã giảm giá
-                        </Link>
-                      </li>
-                    </ul>
-                  </ClickAwayListener>
-                )}
-              </div>
+                    <div className="navButtonn">
+                      <FontAwesomeIcon
+                        icon={faCircleUser}
+                        style={{ fontSize: "25px", paddingRight: "10px" }}
+                      />{" "}
+                      {curentUser.email}
+                    </div>
+                  </div>
+                  {isOpenDropDown !== false && (
+                    <ClickAwayListener
+                      onClickAway={() => setisOpenDropDown(false)}
+                    >
+                      <ul className="dropdownMenu">
+                        <li>
+                          <Link
+                            to="/"
+                            className="full-link"
+                            onClick={handleLogout}
+                          >
+                            Đăng xuất
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/Login" className="full-link">
+                            Đơn hàng
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/Login" className="full-link">
+                            Wishlist
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/Login" className="full-link">
+                            Mã giảm giá
+                          </Link>
+                        </li>
+                      </ul>
+                    </ClickAwayListener>
+                  )}
+                </div>
+              ) : (
+                <div className="btnNav">
+                  <div
+                    className="loginNav"
+                    onClick={() => setisOpenDropDown(!isOpenDropDown)}
+                  >
+                    <div className="navButtonn">
+                      <FontAwesomeIcon
+                        icon={faCircleUser}
+                        style={{ fontSize: "25px", paddingRight: "10px" }}
+                      />{" "}
+                      Tài khoản
+                    </div>
+                  </div>
+                  {isOpenDropDown !== false && (
+                    <ClickAwayListener
+                      onClickAway={() => setisOpenDropDown(false)}
+                    >
+                      <ul className="dropdownMenu">
+                        <li>
+                          <Link to="/Login" className="full-link">
+                            Đăng nhập
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/Register" className="full-link">
+                            Đăng ký
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/Login" className="full-link">
+                            Đơn hàng
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/Login" className="full-link">
+                            Wishlist
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/Login" className="full-link">
+                            Mã giảm giá
+                          </Link>
+                        </li>
+                      </ul>
+                    </ClickAwayListener>
+                  )}
+                </div>
+              )}
 
               <div className="loginNav">
                 <div className="navButtonn">

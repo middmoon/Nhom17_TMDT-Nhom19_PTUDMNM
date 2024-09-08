@@ -3,7 +3,6 @@ import "./nav.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faHeadphones } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-
 const Nav = () => {
   return (
     <div className="nav d-flex align-items-center">

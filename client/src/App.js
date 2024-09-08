@@ -7,6 +7,7 @@ import Home from "./pages/Home/index";
 import About from "./pages/About/index";
 import Login from "./pages/Access/Login";
 import Register from "./pages/Access/Register";
+
 function App() {
   return (
     <BrowserRouter>
