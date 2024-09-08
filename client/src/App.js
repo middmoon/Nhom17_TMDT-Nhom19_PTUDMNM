@@ -18,7 +18,7 @@ function App() {
         <Route exact={true} path="/About" element={<About />} />
         <Route exact={true} path="/Login" element={<Login />} />
         <Route exact={true} path="/Register" element={<Register />} />
-        <Route exact={true} path="/my-profile" element={<CustomerPage />} />
+        {/* <Route exact={true} path="/my-profile" element={<CustomerPage />} /> */}
         {/* Thái */}
         {/* Thành */}
       </Routes>
