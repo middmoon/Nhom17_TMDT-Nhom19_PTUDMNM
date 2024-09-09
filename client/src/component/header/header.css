@@ -65,7 +65,12 @@ header .headerSearch .search .searchIcon {
   flex: "1 1 auto";
   text-align: center;
 }
-
+.btnNav1 {
+  position: relative;
+}
+.btnNav3 {
+  position: relative;
+}
 .navButtonn {
   border-radius: 5px;
   padding: 9px 30px;
@@ -95,6 +100,19 @@ header .headerSearch .search .searchIcon {
   cursor: pointer;
 }
 
+.dropdownMenu1 {
+  position: absolute;
+  padding: 20px;
+  top: 120%;
+  left: 3%;
+  width: max-content;
+  height: auto;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  z-index: 100;
+  cursor: pointer;
+}
+
 .dropdownMenu li {
   width: 100%;
   list-style: none;
@@ -105,4 +123,33 @@ header .headerSearch .search .searchIcon {
   background-color: #f3f3f3;
   color: rgb(42, 139, 230);
   border-radius: 2px;
+}
+
+.Shop-regis-Drop {
+  max-width: 200px;
+}
+
+.Shop-regis-Drop h1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+.Shop-regis-Drop h2 {
+  font-size: 10px;
+  font-weight: 500;
+  color: #8a8a8a;
+}
+.Shop-regis-Drop button {
+  padding: 5px 20px;
+  background-color: #ebb624;
+  display: inline-block;
+  margin-top: 10px;
+  color: white;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: ease-in-out 0.3s;
+  border: none;
+}
+
+.Shop-regis-Drop button:hover {
+  transform: translateY(-5px);
 }

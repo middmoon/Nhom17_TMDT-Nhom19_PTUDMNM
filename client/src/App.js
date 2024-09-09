@@ -7,6 +7,7 @@ import Home from "./pages/Home/index";
 import About from "./pages/About/index";
 import Login from "./pages/Access/Login";
 import Register from "./pages/Access/Register";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <Route exact={true} path="/About" element={<About />} />
         <Route exact={true} path="/Login" element={<Login />} />
         <Route exact={true} path="/Register" element={<Register />} />
-        {/* <Route exact={true} path="/my-profile" element={<CustomerPage />} /> */}
+        <Route exact={true} path="/my-profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

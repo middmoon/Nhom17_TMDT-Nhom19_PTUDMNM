@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosDefaults from "axios";
 import Cookies from "js-cookie";
 const urlLogin = "http://localhost:3030/api/v1/access/login";
 const urlLogout = "http://localhost:3030/api/v1/access/logout";
@@ -42,3 +43,47 @@ export const logoutUser = async (navigate, setError) => {
     setError("Đã xảy ra lỗi khi đăng xuất.");
   }
 };
+
+export const apiGetPublicProvince = () =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosDefaults({
+        method: "get",
+        url: "http://localhost:3030/api/v1/address/procince",
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const apiGetPublicDistrict = (province_code) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await axiosDefaults({
+        method: "get",
+        url: `http://localhost:3030/api/v1/address/district/${province_code}`,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+export const apiGetPublicWard = (district_code) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      if (!district_code) {
+        // If district_code is null or undefined, resolve immediately with empty data
+        resolve({ data: { metadata: { ward: [] } } });
+      } else {
+        const response = await axiosDefaults({
+          method: "get",
+          url: `http://localhost:3030/api/v1/address/ward/${district_code}`,
+        });
+        resolve(response);
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
