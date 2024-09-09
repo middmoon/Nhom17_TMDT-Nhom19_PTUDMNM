@@ -9,9 +9,7 @@ router
     res.render("index", { title: "TMDT CTK45A API PUBLIC SERVICES V1" });
   })
 
-  .get("/products", function (req, res, next) {
-    res.render("index", { title: "danh sách sản phẩm" });
-  })
+  .get("/products", asyncHandler(PublicController.getProducts))
 
   .get("/products/:productId", function (req, res, next) {
     res.render("index", { title: "chi tiết sản phẩm" });

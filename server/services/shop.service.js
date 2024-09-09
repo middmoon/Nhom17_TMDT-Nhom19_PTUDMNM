@@ -16,11 +16,11 @@ const {
   ProductImage,
   Category,
   Brand,
+  Order,
 } = require("../models");
 const { createSlug } = require("../utils/slug");
 
 const cloudinary = require("../config/cloudinary.config");
-const { includes } = require("lodash");
 
 class ShopService {
   static async registerShop(payload, userId) {
@@ -98,17 +98,59 @@ class ShopService {
 
     const foundShop = await Shop.findOne({
       where: { seller_id: ownerId },
+      include: [
+        {
+          model: Product,
+          as: "products",
+          attributes: ["_id", "name", "stock_quantity", "price", "sale_price"],
+          include: [
+            {
+              model: Category,
+              as: "categories",
+              attributes: ["_id", "name"],
+              through: {
+                attributes: [],
+              },
+            },
+            {
+              model: Brand,
+              as: "brand",
+              attributes: ["_id", "name"],
+            },
+            { model: ProductImage, as: "images" },
+          ],
+        },
+        {
+          model: Order,
+          as: "orders",
+          include: [
+            {
+              model: Product,
+              as: "products",
+              attributes: ["_id", "name", "price"],
+              through: { attributes: ["quantity", "unit_price"] },
+            },
+          ],
+        },
+      ],
     });
 
     if (!foundShop) {
       throw new NotFoundError("Something wrong with your info: Not find shop");
     }
 
+    const pendingOrdersCount = await Order.count({
+      where: {
+        shop_id: foundShop._id,
+        status: "pending",
+      },
+    });
+
     return {
       shop: foundShop,
+      pendingOrdersCount: pendingOrdersCount,
     };
   }
-
   static async updateShopInfo() {}
 
   static async updateShopImage(ownerId, file) {

@@ -2,7 +2,7 @@
 
 const { Op } = require("sequelize");
 const { NotFoundError } = require("../core/error.response");
-const { Product, Category, Brand } = require("../models");
+const { Product, Category, Brand, ProductImage } = require("../models");
 
 class PublicService {
   static async getProducts(query) {
@@ -28,29 +28,21 @@ class PublicService {
     // Tìm kiếm theo tên sản phẩm
     if (keyword) filters.name = { [Op.like]: `%${keyword}%` };
 
-    // Lọc theo danh mục
     if (category) filters.category_id = category;
 
-    // Lọc theo thương hiệu
     if (brand) filters.brand_id = brand;
 
-    // Lọc theo giá
     if (minPrice) filters.price = { [Op.gte]: minPrice };
     if (maxPrice) filters.price = { ...filters.price, [Op.lte]: maxPrice };
 
-    // Lọc theo đánh giá
     if (minRating) filters.rating = { [Op.gte]: minRating };
 
-    // Lọc theo trạng thái còn hàng
     if (inStock) filters.inStock = true;
 
-    // Lọc theo sản phẩm nổi bật
     if (featured) filters.featured = true;
 
-    // Lọc theo sản phẩm đang giảm giá
     if (discounted) filters.discounted = true;
 
-    // Lọc theo sản phẩm mới trong 30 ngày
     if (isNew)
       filters.createdAt = {
         [Op.gte]: new Date(new Date() - 30 * 24 * 60 * 60 * 1000),
@@ -59,15 +51,26 @@ class PublicService {
     const offset = (page - 1) * limit;
 
     try {
-      // Tìm sản phẩm dựa trên các tiêu chí
       const products = await Product.findAndCountAll({
         where: filters,
         limit: parseInt(limit),
         offset: parseInt(offset),
         order: [[sortBy, order]],
         include: [
-          { model: Category, as: "category" },
-          { model: Brand, as: "brand" },
+          {
+            model: Category,
+            as: "categories",
+            attributes: ["_id", "name"],
+            through: {
+              attributes: [], // This excludes ProductCategory fields from the result
+            },
+          },
+          {
+            model: Brand,
+            as: "brand",
+            attributes: ["_id", "name"],
+          },
+          { model: ProductImage, as: "images" },
         ],
       });
 
@@ -80,6 +83,7 @@ class PublicService {
         include: [
           {
             model: Product,
+            as: "products",
             where: keyword ? { name: { [Op.like]: `%${keyword}%` } } : {},
           },
         ],
@@ -94,6 +98,7 @@ class PublicService {
         include: [
           {
             model: Product,
+            as: "products",
             where: keyword ? { name: { [Op.like]: `%${keyword}%` } } : {},
           },
         ],
@@ -134,8 +139,8 @@ class PublicService {
 
     const r = categories.map((category) => {
       return {
-        ...category.dataValues, // Get the original data
-        image_url: `${baseUrl}${category.image_url}`, // Prepend the base URL to image_url
+        ...category.dataValues,
+        image_url: `${baseUrl}${category.image_url}`,
       };
     });
 
@@ -157,7 +162,7 @@ class PublicService {
     const r = brands.map((brand) => {
       return {
         ...brand.dataValues,
-        image_url: `${baseUrl}${brand.image_url}`, // Prepend the base URL to image_url
+        image_url: `${baseUrl}${brand.image_url}`,
       };
     });
 

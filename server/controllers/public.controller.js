@@ -4,9 +4,9 @@ const PublicService = require("../services/public.service");
 
 class PublicController {
   getProducts = async (req, res, next) => {
-    new CREATED({
+    new OK({
       message: "get products list OK",
-      metadata: await PublicService.getProducts(),
+      metadata: await PublicService.getProducts(req.query),
     }).send(res);
   };
 
