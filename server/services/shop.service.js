@@ -20,6 +20,7 @@ const {
 const { createSlug } = require("../utils/slug");
 
 const cloudinary = require("../config/cloudinary.config");
+const { includes } = require("lodash");
 
 class ShopService {
   static async registerShop(payload, userId) {
@@ -198,10 +199,11 @@ class ShopService {
           slug: slug,
           shop_id: foundShop._id,
           brand_id: payload.brand_id,
-          category_id: payload.category_id,
         },
         { transaction: t }
       );
+
+      console.log(payload.category_ids);
 
       if (payload.category_ids && Array.isArray(payload.category_ids)) {
         await newProduct.setCategories(payload.category_ids, {
@@ -214,8 +216,8 @@ class ShopService {
       const productDetails = await Product.findOne({
         where: { _id: newProduct._id },
         include: [
-          { model: Category, as: "categories" },
-          { model: Brand, as: "brand" },
+          { model: Category, as: "categories", attributes: ["_id", "name"] },
+          { model: Brand, as: "brand", attributes: ["_id", "name"] },
         ],
       });
 
@@ -223,8 +225,14 @@ class ShopService {
         product: productDetails,
       };
     } catch (error) {
-      await t.rollback();
+      if (t.finished !== "commit") {
+        await t.rollback();
+      }
       throw error;
+    } finally {
+      if (!t.finished) {
+        await t.rollback();
+      }
     }
   }
 

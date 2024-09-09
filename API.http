@@ -122,13 +122,13 @@ Content-Type: application/json
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTY5NDEyNywiZXhwIjoxNzI2NTU4MTI3fQ.pOKnHrJGkwj3WJqlYZuHKN5M-0vRNojFnF53hf6JLOg
 
 {
-    "name": "San pham 7",
-    "description": "Day la san pham 7 của shop 9",
-    "price": 100000,
-    "sale_price": 80000,
+    "name": "Áo len nữ cổ tròn - xanh dương",
+    "description": "Áo len nữ cổ tròn - xanh dương - Ấm áp mùa đông - Day la san pham 7 của shop 9",
+    "price": 150000,
+    "sale_price": 120000,
     "stock_quantity": 100,
     "brand_id": null,
-    "category_ids": null
+    "category_ids": [2, 10]
 } 
 
 # "category_ids": [1, 2, 3], "brand_id": 10
