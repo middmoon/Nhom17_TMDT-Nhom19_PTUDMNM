@@ -1,8 +1,22 @@
 "use strict";
 
 require("dotenv").config();
-const { sequelize, User, CustomerShippingAddress, Role } = require("../models");
-const { NotFoundError, BadRequestError } = require("../core/error.response");
+const {
+  sequelize,
+  User,
+  CustomerShippingAddress,
+  Role,
+  Cart,
+  CartItem,
+  Product,
+  Order,
+  Shop,
+} = require("../models");
+const {
+  NotFoundError,
+  BadRequestError,
+  ForbiddenError,
+} = require("../core/error.response");
 const { getInfoData, omitInfoData } = require("../utils");
 const UserService = require("./user.service");
 const cloudinary = require("../config/cloudinary.config");
@@ -42,7 +56,6 @@ class CustomerService {
   }
 
   static async updateInfo(userId, payload) {
-    console.log(userId);
     try {
       await UserService.foundUser(userId);
 
@@ -123,13 +136,6 @@ class CustomerService {
   }
 
   static async addShipingAddress(userId, payload) {
-    // console.log(userId);
-    // console.log(payload);
-
-    // const address = `${payload.address} - ${payload.ward} - ${payload.district} - ${payload.province}`;
-
-    // console.log(address);
-
     const foundUser = await User.findOne({
       where: { _id: userId },
       attributes: { exclude: ["password", "_id"] },
@@ -140,11 +146,7 @@ class CustomerService {
       throw new NotFoundError("Error: Can not find the user");
     }
 
-    // console.log(foundUser);
-
     const address = `${payload.address} - ${payload.ward} - ${payload.district} - ${payload.province}`;
-
-    // console.log(address);
 
     const newAddress = await CustomerShippingAddress.create({
       customer_id: userId,
@@ -209,13 +211,255 @@ class CustomerService {
     };
   }
 
-  static async getCart(userId) {}
-  static async addProductToCart(userId) {}
+  static async getCart(userId) {
+    try {
+      const cart = await Cart.findOne({
+        where: {
+          customer_id: userId,
+          status: "active",
+        },
+        include: [
+          {
+            model: CartItem,
+            as: "items",
+            include: [
+              {
+                model: Product,
+                as: "product",
+                include: [{ model: Shop, as: "shop" }],
+                attributes: { include: ["_id", "name"] },
+              },
+            ],
+          },
+        ],
+      });
+
+      if (!cart) {
+        throw new NotFoundError("No active cart found");
+      }
+
+      const groupedByShop = cart.items.reduce((shops, item) => {
+        if (!item.product) {
+          throw new Error(`Product with ID ${item.product_id} not found`);
+        }
+
+        const shopId = item.product.shop_id;
+        const shopName = item.product.shop
+          ? item.product.shop.name
+          : "Unknown Shop";
+
+        if (!shops[shopId]) {
+          shops[shopId] = {
+            shopId: shopId,
+            shopName: shopName,
+            items: [],
+          };
+        }
+
+        shops[shopId].items.push({
+          productId: item.product_id,
+          productName: item.product.name,
+          quantity: item.quantity,
+          unitPrice: item.unit_price,
+          totalPrice: item.total_price,
+        });
+
+        return shops;
+      }, {});
+
+      const shops = Object.values(groupedByShop);
+
+      return {
+        cartId: cart._id,
+        customer_id: cart.customer_id,
+        total_amount: cart.total_amount,
+        shops,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async addProductToCart(userId, payload) {
+    const { productId, quantity } = payload;
+
+    const foundShop = await Shop.findOne({
+      where: { seller_id: userId },
+    });
+
+    if (foundShop) {
+      throw ForbiddenError("You can not make order for your shop");
+    }
+
+    try {
+      let cart = await Cart.findOne({
+        where: {
+          customer_id: userId,
+          status: "active",
+        },
+        include: [
+          {
+            model: CartItem,
+            as: "items",
+            include: [{ model: Product, as: "product" }],
+          },
+        ],
+      });
+
+      if (!cart) {
+        cart = await Cart.create({
+          customer_id: userId,
+        });
+      }
+
+      const product = await Product.findByPk(productId);
+      if (!product) {
+        throw new NotFoundError("Product not found");
+      }
+
+      const shopId = product.shop_id;
+
+      if (cart.items.length > 0) {
+        const firstItemShopId = cart.items[0].product.shop_id;
+
+        if (shopId !== firstItemShopId) {
+          throw new BadRequestError(
+            "Cannot add products from different shops to the same cart."
+          );
+        }
+      }
+
+      const unitPrice = product.sale_price || product.price;
+      const totalPrice = unitPrice * quantity;
+
+      const [cartItem, created] = await CartItem.findOrCreate({
+        where: {
+          cart_id: cart._id,
+          product_id: product._id,
+        },
+        defaults: {
+          quantity,
+          unit_price: unitPrice,
+          total_price: totalPrice,
+        },
+      });
+
+      if (!created) {
+        cartItem.quantity += quantity;
+        cartItem.total_price = cartItem.quantity * unitPrice;
+        await cartItem.save();
+      }
+
+      const cartItems = await CartItem.findAll({
+        where: { cart_id: cart._id },
+      });
+      const cartTotal = cartItems.reduce(
+        (total, item) => total + item.total_price,
+        0
+      );
+      cart.total_amount = cartTotal;
+      await cart.save();
+
+      return { cart };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async checkout(userId, payload) {
+    let selectedProductIds = payload.productIds;
+
+    try {
+      let cart = await Cart.findOne({
+        where: {
+          customer_id: userId,
+          status: "active",
+        },
+        include: [
+          {
+            model: CartItem,
+            as: "items",
+            include: [{ model: Product, as: "product" }],
+          },
+        ],
+      });
+
+      if (!cart) {
+        throw new Error("No active cart found");
+      }
+
+      const selectedItems = cart.items.filter((item) =>
+        selectedProductIds.includes(item.product_id)
+      );
+
+      if (selectedItems.length === 0) {
+        throw new Error("No products selected for checkout");
+      }
+
+      const firstItemShopId = selectedItems[0].product.shop_id;
+      const isSameShop = selectedItems.every(
+        (item) => item.product.shop_id === firstItemShopId
+      );
+
+      if (!isSameShop) {
+        throw new Error(
+          "Cannot checkout products from different shops in one order."
+        );
+      }
+
+      const totalAmount = selectedItems.reduce(
+        (total, item) => total + item.total_price,
+        0
+      );
+
+      const order = await Order.create({
+        customer_id: userId,
+        shop_id: firstItemShopId,
+        total_amount: totalAmount,
+        status: "pending",
+      });
+
+      await Promise.all(
+        selectedItems.map((item) => {
+          return OrderItem.create({
+            order_id: order._id,
+            product_id: item.product._id,
+            quantity: item.quantity,
+            unit_price: item.unit_price,
+            total_price: item.total_price,
+          });
+        })
+      );
+
+      await CartItem.destroy({
+        where: {
+          cart_id: cart._id,
+          product_id: selectedProductIds,
+        },
+      });
+
+      const remainingItems = await CartItem.findAll({
+        where: { cart_id: cart._id },
+      });
+      const remainingTotal = remainingItems.reduce(
+        (total, item) => total + item.total_price,
+        0
+      );
+      cart.total_amount = remainingTotal;
+      await cart.save();
+
+      return {
+        order: order,
+      };
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
   static async updateCart(userId) {}
   static async deleteProductInCart(userId) {}
 
   static async getOrders(userId) {}
-  static async createOrder(userId) {}
   static async getOrderDetails(orderId) {}
   static async reviewOrder(orderId) {}
   static async cacelOrder(orderId) {}

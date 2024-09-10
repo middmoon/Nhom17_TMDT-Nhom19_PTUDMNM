@@ -47,77 +47,77 @@ class CustomerController {
     }).send(res);
   };
 
-  deleteShipingAddres = async (req, res, next) => {
-    new OK({
-      message: "delete shipping addresses OK",
-      // metadata: await CustomerService.getShippingAddresses(req._id),
-    }).send(res);
-  };
-
   // cart
   getCart = async (req, res, next) => {
     new OK({
       message: "get card",
-      // metadata: await CustomerService.getShippingAddresses(req._id),
+      metadata: await CustomerService.getCart(req._id),
     }).send(res);
   };
 
   addProductToCart = async (req, res, next) => {
-    new OK({
+    new CREATED({
       message: "get product to cart",
-      // metadata: await CustomerService.getShippingAddresses(req._id),
+      metadata: await CustomerService.addProductToCart(req._id, req.body),
     }).send(res);
   };
 
-  updateCart = async (req, res, next) => {
-    new OK({
-      message: "update cart card",
-      // metadata: await CustomerService.getShippingAddresses(req._id),
+  checkOut = async (req, res, next) => {
+    new CREATED({
+      message: "get product to cart",
+      metadata: await CustomerService.checkout(req._id, req.body),
     }).send(res);
   };
 
-  deleteProductInCart = async (req, res, next) => {
-    new OK({
-      message: "delete product card",
-      // metadata: await CustomerService.getShippingAddresses(req._id),
-    }).send(res);
-  };
+  // updateCart = async (req, res, next) => {
+  //   new OK({
+  //     message: "update cart card",
+  //     // metadata: await CustomerService.getShippingAddresses(req._id),
+  //   }).send(res);
+  // };
+
+  // deleteProductInCart = async (req, res, next) => {
+  //   new OK({
+  //     message: "delete product card",
+  //     // metadata: await CustomerService.getShippingAddresses(req._id),
+  //   }).send(res);
+  // };
 
   // order
-  getOrders = async (req, res, next) => {
-    new OK({
-      message: "get all order OK",
-      // metadata: await CustomerService.getShippingAddresses(req._id),
-    }).send(res);
-  };
+  // getOrders = async (req, res, next) => {
+  //   new OK({
+  //     message: "get all order OK",
+  //     // metadata: await CustomerService.getShippingAddresses(req._id),
+  //   }).send(res);
+  // };
 
-  createOrder = async (req, res, next) => {
-    new OK({
-      message: "create order OK",
-      // metadata: await CustomerService.getShippingAddresses(req._id),
-    }).send(res);
-  };
+  // createOrder = async (req, res, next) => {
+  //   new OK({
+  //     message: "create order OK",
+  //     // metadata: await CustomerService.getShippingAddresses(req._id),
+  //   }).send(res);
+  // };
 
-  getOrderDetails = async (req, res, next) => {
-    new OK({
-      message: "get order detail OK",
-      // metadata: await CustomerService.getShippingAddresses(req._id),
-    }).send(res);
-  };
+  // getOrderDetails = async (req, res, next) => {
+  //   new OK({
+  //     message: "get order detail OK",
+  //     // metadata: await CustomerService.getShippingAddresses(req._id),
+  //   }).send(res);
+  // };
 
-  reviewOrder = async (req, res, next) => {
-    new OK({
-      message: "resview order OK",
-      // metadata: await CustomerService.getShippingAddresses(req._id),
-    }).send(res);
-  };
+  // reviewOrder = async (req, res, next) => {
+  //   new OK({
+  //     message: "resview order OK",
+  //     // metadata: await CustomerService.getShippingAddresses(req._id),
+  //   }).send(res);
+  // };
 
-  cacelOrder = async (req, res, next) => {
-    new OK({
-      message: "cancel order OK",
-      // metadata: await CustomerService.getShippingAddresses(req._id),
-    }).send(res);
-  };
+  // cacelOrder = async (req, res, next) => {
+  //   new OK({
+  //     message: "cancel order OK",
+  //     // metadata: await CustomerService.getShippingAddresses(req._id),
+  //   }).send(res);
+  // };
 }
 
 module.exports = new CustomerController();

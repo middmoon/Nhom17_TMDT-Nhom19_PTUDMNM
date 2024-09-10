@@ -1,0 +1,21 @@
+### Add product to cart
+POST http://localhost:3030/api/v1/customer/cart
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTg4NDI5NywiZXhwIjoxNzI2NzQ4Mjk3fQ.uNPNOTk3HfQKjTdLSHxS7NJzgzbxl4HZziQd4dnjdik
+
+{
+  "productId": 14,
+  "quantity": 4
+}
+
+### View cart
+GET http://localhost:3030/api/v1/customer/cart/
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTc4MDM3NiwiZXhwIjoxNzI2NjQ0Mzc2fQ.8QYbGe6Y0dw9Ttzqd2x5rKZKamFcfZkbIlQPqt2c88U
+
+
+### View product
+
+### Make order
+
+### Get all order

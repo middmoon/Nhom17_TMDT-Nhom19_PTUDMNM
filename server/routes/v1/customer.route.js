@@ -35,47 +35,30 @@ router
     "/shipping-address/:shippingAddressId",
     asyncHandler(CustomerController.updateShippingAddress)
   )
-  // .delete(
-  //   "/shipping-address/:shippingAddressId",
-  //   asyncHandler(CustomerController.deleteShipingAddres)
-  // )
-  // cart
-  .get("/cart", function (req, res, next) {
-    res.render("index", { title: "thông tin giỏ hàng" });
-  })
-  .post("/cart", function (req, res, next) {
-    res.render("index", { title: "thêm sản phẩm vào giỏ hàng" });
-  })
-  .put("/cart/:itemId", function (req, res, next) {
-    res.render("index", { title: "cập nhật sản phẩm trong giỏ hàng" });
-  })
-  .delete("/cart/:itemId", function (req, res, next) {
-    res.render("index", { title: "xóa sản phẩm khỏi giỏ hàng" });
-  })
+  // // cart
+  .get("/cart", asyncHandler(CustomerController.getCart))
+  .post("/cart", asyncHandler(CustomerController.addProductToCart))
 
-  //order
-  .get("/orders", function (req, res, next) {
-    res.render("index", { title: "thông tin các dơn hàng" });
-  })
-  .post("/orders", function (req, res, next) {
-    res.render("index", { title: "tạo đơn hàng mới" });
-  })
-  .put("/orders/:orderId", function (req, res, next) {
-    res.render("index", { title: "chi tiết đơn hàng" });
-  })
-  .put("/orders/:orderId/review", function (req, res, next) {
-    res.render("index", { title: "đánh giá đơn hàng" });
-  })
-  .delete("/orders/:orderId", function (req, res, next) {
-    res.render("index", { title: "hủy đơn hàng" });
-  });
+  // .put("/cart/:itemId", function (req, res, next) {
+  //   res.render("index", { title: "cập nhật sản phẩm trong giỏ hàng" });
+  // })
+  // .delete("/cart/:itemId", function (req, res, next) {
+  //   res.render("index", { title: "xóa sản phẩm khỏi giỏ hàng" });
+  // });
 
-//payment
-// .post("/payment", function (req, res, next) {
-//   res.render("index", { title: "thanh toán đơn hàng / checkout" });
+  // // order
+  // .get("/orders", function (req, res, next) {
+  //   res.render("index", { title: "thông tin các dơn hàng" });
+  // })
+  .post("/orders", asyncHandler(CustomerController.checkOut));
+// .put("/orders/:orderId", function (req, res, next) {
+//   res.render("index", { title: "chi tiết đơn hàng" });
 // })
-// .get("/payment", function (req, res, next) {
-//   res.render("index", { title: "thêm sản phẩm vào giỏ hàng" });
+// .put("/orders/:orderId/review", function (req, res, next) {
+//   res.render("index", { title: "đánh giá đơn hàng" });
 // })
+// .delete("/orders/:orderId", function (req, res, next) {
+//   res.render("index", { title: "hủy đơn hàng" });
+// });
 
 module.exports = router;
