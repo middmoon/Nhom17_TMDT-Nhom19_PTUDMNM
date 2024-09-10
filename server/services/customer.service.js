@@ -11,6 +11,7 @@ const {
   Product,
   Order,
   Shop,
+  OrderItem,
 } = require("../models");
 const {
   NotFoundError,
@@ -415,6 +416,8 @@ class CustomerService {
       const order = await Order.create({
         customer_id: userId,
         shop_id: firstItemShopId,
+        customer_shipping_address_id: payload.customer_shipping_address_id,
+        // shop_address_id: payload.shop_address_id,
         total_amount: totalAmount,
         status: "pending",
       });
@@ -452,7 +455,7 @@ class CustomerService {
         order: order,
       };
     } catch (error) {
-      throw new Error(error.message);
+      throw error;
     }
   }
 

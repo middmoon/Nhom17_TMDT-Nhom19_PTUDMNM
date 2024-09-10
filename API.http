@@ -69,7 +69,7 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTUz
 ### add shipping address
 POST http://localhost:3030/api/v1/customer/shipping-address
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTUzMTQxMSwiZXhwIjoxNzI2Mzk1NDExfQ.zl6vBG4Xtu7TtWEXZyZ2xTz3o1Rz1vVUDu26xsWH5Qc
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTc4MDM3NiwiZXhwIjoxNzI2NjQ0Mzc2fQ.8QYbGe6Y0dw9Ttzqd2x5rKZKamFcfZkbIlQPqt2c88U
 
 {
     "ward_code": "24796",
@@ -83,7 +83,7 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTUz
 ### get all customer shipping address
 GET http://localhost:3030/api/v1/customer/shipping-addresses
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTUzMTQxMSwiZXhwIjoxNzI2Mzk1NDExfQ.zl6vBG4Xtu7TtWEXZyZ2xTz3o1Rz1vVUDu26xsWH5Qc
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTc4MDM3NiwiZXhwIjoxNzI2NjQ0Mzc2fQ.8QYbGe6Y0dw9Ttzqd2x5rKZKamFcfZkbIlQPqt2c88U
 
 ### update shipping address
 PUT http://localhost:3030/api/v1/customer/shipping-address/:shippingAddressId

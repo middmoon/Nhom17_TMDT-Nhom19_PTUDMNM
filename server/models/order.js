@@ -105,7 +105,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       shop_address_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
       shop_id: {
         type: DataTypes.INTEGER,
