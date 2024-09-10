@@ -105,11 +105,12 @@ const Header = () => {
   //handle click tạo cửa hàng hoặc đăng hàng
   const handleShopClick = () => {
     if (curentUser?.isSeller) {
-      navigate("/sell");
+      navigate("/Shop/Profile");
     } else {
       setisOpenDropDown1(!isOpenDropDown1);
     }
   };
+
   return (
     <>
       <header>

@@ -1,0 +1,20 @@
+.ShopManagerContainer {
+  display: flex;
+  width: 100%;
+}
+
+.ShopM-l {
+  width: 15%;
+  color: black;
+  background-color: #b0d0ff;
+  position: sticky;
+  height: 100vh;
+  max-height: 781px;
+  top: 0;
+  left: 0;
+}
+
+.Shop-r {
+  width: 85%;
+  background-color: rgb(243, 243, 243);
+}
