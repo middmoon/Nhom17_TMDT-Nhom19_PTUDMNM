@@ -13,7 +13,7 @@ POST http://localhost:3030/api/v1/access/login
 Content-Type: application/json
 
 {
-    "option": "test10@gmail.com",
+    "option": "test9@gmail.com",
     "password": "123"
 }
 
@@ -114,7 +114,7 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTUz
 ### get shop info for owner
 GET http://localhost:3030/api/v1/shop/profile
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTg1MjIwNCwiZXhwIjoxNzI2NzE2MjA0fQ.pl619SSix2urtKyResbbmtHg9vtjTltscQzuK8ew6jk
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTk0MTQ3MiwiZXhwIjoxNzI2ODA1NDcyfQ.jaYOfQ2ZVXu6BmBCaDAKHAd6wAGgxsq6IF50d0IiBjU
 
 ### add product shop info for owner
 POST http://localhost:3030/api/v1/shop/products

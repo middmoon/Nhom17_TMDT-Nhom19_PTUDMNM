@@ -48,7 +48,7 @@ class PublicController {
   getShopDetails = async (req, res, next) => {
     new OK({
       message: "update shop image OK",
-      metadata: await PublicService.getShopDetails(req.params),
+      metadata: await PublicService.getShopDetails(req.params.shopId),
     }).send(res);
   };
 

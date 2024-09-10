@@ -27,9 +27,7 @@ router
     res.render("index", { title: "danh sách sản phẩm theo thương hiệu" });
   })
 
-  .get("/shop/:shopId", function (req, res, next) {
-    res.render("index", { title: "xem chi tiết một shop" });
-  })
+  .get("/shop/:shopId", asyncHandler(PublicController.getShopDetails))
 
   .get("/featured-products", function (req, res, next) {
     res.render("index", { title: "gợi ý sản phẩm" });

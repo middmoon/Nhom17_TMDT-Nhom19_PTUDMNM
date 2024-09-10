@@ -2,7 +2,7 @@
 
 const { Op } = require("sequelize");
 const { NotFoundError } = require("../core/error.response");
-const { Product, Category, Brand, ProductImage } = require("../models");
+const { Product, Category, Brand, ProductImage, Shop } = require("../models");
 
 class PublicService {
   static async getProducts(query) {
@@ -172,7 +172,32 @@ class PublicService {
   }
   static async getProductsByBrand(brandId) {}
 
-  static async getShopDetails() {}
+  static async getShopDetails(shopId) {
+    const foundShop = await await Shop.findByPk(shopId, {
+      include: [
+        {
+          model: Product,
+          as: "products",
+          attributes: ["_id", "name", "price", "sale_price", "stock_quantity"],
+          include: [
+            {
+              model: ProductImage,
+              as: "images",
+              attributes: ["url"],
+            },
+          ],
+        },
+      ],
+    });
+
+    if (!foundShop) {
+      throw new NotFoundError("Can not find the shop");
+    }
+
+    return {
+      shop: foundShop,
+    };
+  }
 
   static async getFeaturedProduct() {}
 
