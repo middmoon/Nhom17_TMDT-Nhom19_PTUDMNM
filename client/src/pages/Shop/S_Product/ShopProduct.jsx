@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./ShopProduct.css";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
 const ShopProduct = () => {
   //state
   const [open, setOpen] = useState(false);
@@ -9,7 +11,7 @@ const ShopProduct = () => {
   const [Cate, setCate] = useState([]);
   const [selectedCate, setSelectedCate] = useState([]);
   const [brands, setBrands] = useState([]);
-
+  const [selectedProductId, setSelectedProductId] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -18,6 +20,7 @@ const ShopProduct = () => {
     stock_quantity: "",
     brand_id: "",
   });
+  const [selectedImages, setSelectedImages] = useState([]);
   // Lấy cookies
   function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -29,9 +32,11 @@ const ShopProduct = () => {
   const handleOpen = (i) => {
     setOpen(true);
   };
-  const handleOpen1 = (i) => {
+  const handleOpen1 = (productId) => {
+    setSelectedProductId(productId);
     setOpen1(true);
   };
+
   //Lấy Categories
   useEffect(() => {
     const fetchCate = async () => {
@@ -88,6 +93,16 @@ const ShopProduct = () => {
       setSelectedCate([...selectedCate, id]);
     }
   };
+  //handleImageChange
+  const handleImageChange = (event) => {
+    const newImages = Array.from(event.target.files);
+    const totalImages = [...selectedImages, ...newImages];
+    if (totalImages.length > 6) {
+      alert("Bạn chỉ có thể chọn tối đa 6 hình ảnh.");
+      return;
+    }
+    setSelectedImages(totalImages);
+  };
   //Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -119,6 +134,40 @@ const ShopProduct = () => {
       console.error("Lỗi khi gửi dữ liệu", error);
     }
   };
+
+  ////
+  const handleSubmit1 = async (e) => {
+    e.preventDefault();
+    const formData1 = new FormData();
+    selectedImages.forEach((image) => {
+      formData1.append("productImages", image);
+    });
+
+    try {
+      const headers = {
+        "Content-Type": "multipart/form-data",
+        Authorization: `${accessToken}`,
+      };
+
+      const response = await axios.post(
+        `http://localhost:3030/api/v1/shop/product-images/${selectedProductId}`,
+        formData1,
+        { headers }
+      );
+
+      if (response.status === 200) {
+        alert("Thành công");
+        setOpen(false);
+        window.location.reload();
+      } else {
+        console.error("Không thể thêm sản phẩm");
+        console.log(formData1);
+      }
+    } catch (error) {
+      console.error("Lỗi khi gửi dữ liệu", error);
+      console.log(formData1);
+    }
+  };
   ///////////
   //Lấy sản phẩm
   useEffect(() => {
@@ -141,7 +190,7 @@ const ShopProduct = () => {
   }, []);
   //
   //test log
-  console.log();
+  console.log(Product);
   return (
     <div className="container-fluid">
       <div className="Product_Header">
@@ -153,7 +202,14 @@ const ShopProduct = () => {
           {Product.map((item) => {
             return (
               <div className="SC_item" key={item._id}>
-                <img src="/IMG/Home/T.png" alt="" />
+                <img
+                  src={
+                    item.images.length > 0
+                      ? item.images[0].url
+                      : "/IMG/Home/i.png"
+                  }
+                  alt={item.name}
+                />
                 <div className="SC_descipt">
                   <h1>{item.name}</h1>
 
@@ -171,7 +227,7 @@ const ShopProduct = () => {
                     Kho: {item.stock_quantity}
                   </h1>
                 </div>
-                <button onClick={() => handleOpen1()}>
+                <button onClick={() => handleOpen1(item._id)}>
                   Chỉnh sửa sản phẩm
                 </button>
               </div>
@@ -271,13 +327,82 @@ const ShopProduct = () => {
       )}
       {open1 && (
         <div className="CreateProoduct" onClick={() => setOpen1(false)}>
-          <form
+          <div
             className="CreateProduct-Content1"
             onClick={(e) => {
               e.stopPropagation();
             }}
-            onSubmit={handleSubmit}
-          ></form>
+          >
+            <p>Thông tin chi tiết sản phẩm</p>
+            <div className="ProDuct_ifChange">
+              <p>
+                Tên sản phẩm: <span></span>
+              </p>
+              <p>
+                Chú thích: <span></span>
+              </p>
+              <p>
+                Giá niêm yết: <span></span>
+              </p>
+              <p>
+                Giá sale: <span></span>
+              </p>
+            </div>{" "}
+            <p className="m-0">Cập nhật hình ảnh sản phẩm</p>
+            <p style={{ fontSize: "12px", color: "gray" }}>Tối đa 6 hình</p>
+            <form onSubmit={handleSubmit1}>
+              <div>
+                <label
+                  style={{
+                    borderRadius: "5px",
+                    width: "100%",
+                    border: "dashed 2px",
+                    height: "300px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                  htmlFor="file"
+                >
+                  <FontAwesomeIcon
+                    style={{ fontSize: "100px", color: "#003580" }}
+                    icon={faCamera}
+                  />
+                  <span
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: "400",
+                      color: "#003580",
+                    }}
+                  >
+                    Thêm ảnh
+                  </span>
+                </label>
+                <input
+                  hidden
+                  type="file"
+                  id="file"
+                  multiple
+                  name="images"
+                  onChange={handleImageChange}
+                />
+              </div>
+              <button
+                style={{
+                  backgroundColor: "#003580",
+                  color: "white",
+                  marginTop: "20px",
+                  padding: "10px 25px 10px 25px",
+                  borderRadius: "5px",
+                }}
+                type="submit"
+              >
+                Cập nhật
+              </button>
+            </form>
+          </div>
         </div>
       )}
     </div>

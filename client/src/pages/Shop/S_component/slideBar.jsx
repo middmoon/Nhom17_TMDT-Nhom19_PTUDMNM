@@ -6,7 +6,6 @@ import { NavLink } from "react-router-dom";
 const activeStyle = "active";
 const noActiveStyle = "sliderBarItem";
 const slideBar = () => {
-  console.log(menuSidebar);
   return (
     <div>
       <div className="slideBar">
