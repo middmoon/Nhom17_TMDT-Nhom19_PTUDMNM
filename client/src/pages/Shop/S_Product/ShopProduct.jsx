@@ -190,7 +190,7 @@ const ShopProduct = () => {
   }, []);
   //
   //test log
-  console.log(Product);
+  console.log();
   return (
     <div className="container-fluid">
       <div className="Product_Header">
