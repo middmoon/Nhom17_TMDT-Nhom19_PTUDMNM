@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Select from "../selectDrop/select";
 import { ClickAwayListener } from "@mui/base/ClickAwayListener";
 import Nav from "./nav/nav.jsx";
-const Header = () => {
+const Header = (shouldFetch) => {
   const [isOpenDropDown, setisOpenDropDown] = useState(false);
   const [isOpenDropDown1, setisOpenDropDown1] = useState(false);
   // const [names, setNames] = useState("");
@@ -61,8 +61,10 @@ const Header = () => {
         setCurentUser(null);
       }
     };
-    if (accessToken) fetchUser();
-  }, [accessToken]);
+    if (shouldFetch) {
+      fetchUser();
+    }
+  }, [shouldFetch]);
   ///////////
   // tạo shop
   // const handleChange = (e) => {
@@ -152,7 +154,7 @@ const Header = () => {
                           icon={faCircleUser}
                           style={{ fontSize: "25px", paddingRight: "10px" }}
                         />{" "}
-                        {curentUser.email}
+                        {curentUser.user_name}
                       </div>
                     </div>
                     {isOpenDropDown !== false && (

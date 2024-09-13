@@ -5,6 +5,7 @@ import Brand from "../../component/Brand/Brand";
 import "./style.css";
 import Cookies from "js-cookie";
 import axios from "axios";
+import Header from "../../component/header/header";
 const Home = () => {
   function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -15,12 +16,13 @@ const Home = () => {
 
   return (
     <div>
+      <Header />
       <HomeSlider />
       <CatSlider />
       <Brand />
       <section className="homeProducts">
         <div className="container-fluid homeProductsCtn">
-          <h2 className="hd">Sản phẩm bán chạy</h2>
+          <h2 className="hd">Sản phẩm mới</h2>
           <ul className="list list-inline ml-auto filterTab">
             <li className="list-inline-item">
               <a href="">Tất cả</a>
@@ -44,6 +46,9 @@ const Home = () => {
               <a href="">Đồng hồ</a>
             </li>
           </ul>
+        </div>
+        <div>
+          <img src="/IMG/Home/Product.png" alt="" style={{ width: "1700px" }} />
         </div>
       </section>
       <br />

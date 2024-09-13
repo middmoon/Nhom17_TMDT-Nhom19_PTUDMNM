@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./css/Register.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleHalfStroke } from "@fortawesome/free-solid-svg-icons";
+import Header from "../../component/header/header";
 const { useState } = require("react");
 
 const Register = () => {
@@ -54,46 +55,50 @@ const Register = () => {
   };
 
   return (
-    <div className="bgr">
-      <div className="container-fluid w-100">
-        <div className="Login_Ctn">
-          <div className="Login_ctnn">
-            <div className="Form-BackGrn2">
-              <h1>Đăng ký</h1>
-              <p>Truy cập vào giỏ hàng của bạn</p>
-              <p>Wishlist và Sản phẩm khuyến nghị</p>
-              <img src="/IMG/Home/regis.png" alt="" />
-            </div>
-            <form className="Form-login" onSubmit={handleSubmit}>
-              <h2>Register</h2>
-              <div className="imput-box">
-                <input
-                  onChange={handleChange}
-                  name="email"
-                  type="email"
-                  id="form3Example3c"
-                  className="form-control"
-                  placeholder="Email"
-                />
+    <div>
+      <Header />
+      <div className="bgr">
+        <div className="container-fluid w-100">
+          <div className="Login_Ctn">
+            <div className="Login_ctnn">
+              <div className="Form-BackGrn2">
+                <h1>Đăng ký</h1>
+                <p>Truy cập vào giỏ hàng của bạn</p>
+                <p>Wishlist và Sản phẩm khuyến nghị</p>
+                <img src="/IMG/Home/regis.png" alt="" />
+              </div>
+              <form className="Form-login" onSubmit={handleSubmit}>
+                <h2>Register</h2>
+                <div className="imput-box">
+                  <input
+                    onChange={handleChange}
+                    name="email"
+                    type="email"
+                    id="form3Example3c"
+                    className="form-control"
+                    placeholder="Email"
+                  />
 
-                <input
-                  onChange={handleChange}
-                  name="password"
-                  type="password"
-                  id="form3Example4c"
-                  className="form-control"
-                  placeholder="Mật Khẩu"
-                />
-                <button type="submit" className="btn btn-primary btn-lg">
-                  Tạo Tài Khoản
-                </button>
-              </div>
-              <div className="login-register">
-                <p>
-                  Already have an account? <span onClick={handleLG}>Login</span>
-                </p>
-              </div>
-            </form>
+                  <input
+                    onChange={handleChange}
+                    name="password"
+                    type="password"
+                    id="form3Example4c"
+                    className="form-control"
+                    placeholder="Mật Khẩu"
+                  />
+                  <button type="submit" className="btn btn-primary btn-lg">
+                    Tạo Tài Khoản
+                  </button>
+                </div>
+                <div className="login-register">
+                  <p>
+                    Already have an account?{" "}
+                    <span onClick={handleLG}>Login</span>
+                  </p>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

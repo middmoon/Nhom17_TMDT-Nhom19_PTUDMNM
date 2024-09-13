@@ -16,7 +16,7 @@ import ShopOrder from "./pages/Shop/S_Order/ShopOrder";
 function App() {
   return (
     <BrowserRouter>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route exact={true} path="/" element={<Home />} />
         <Route exact={true} path="/About" element={<About />} />

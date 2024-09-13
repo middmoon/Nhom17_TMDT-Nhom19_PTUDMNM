@@ -7,10 +7,12 @@ import {
   apiGetPublicWard,
 } from "../Access/Request/Request";
 import { useNavigate } from "react-router-dom";
+import Header from "../../component/header/header";
 const Profile = () => {
   ///state
-  const [curentUser, setCurentUser] = useState();
+  const [curentUser, setCurentUser] = useState(null);
   const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
   const [stre, setStre] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [address, setAddress] = useState([]);
@@ -18,9 +20,16 @@ const Profile = () => {
   const [province, setProvince] = useState();
   const [district, setDistrict] = useState();
   const [ward, setWard] = useState();
+
   const [formData, setFormData] = useState({
     address: "",
     phone_number: "",
+  });
+  const [formData1, setFormData1] = useState({
+    user_name: "",
+    phone_number: "",
+    last_name: "",
+    first_name: "",
   });
   const navigate = useNavigate();
   ///Lay cookie
@@ -42,17 +51,55 @@ const Profile = () => {
           " http://localhost:3030/api/v1/customer/profile",
           { headers }
         );
-        setCurentUser(response.data.metadata.user);
+        const bs = response.data.metadata.user;
+        if (bs === null) {
+          return;
+        } else {
+          setCurentUser(response.data.metadata.user);
+        }
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu", error);
         setCurentUser(null);
       }
     };
-    if (accessToken) fetchUser();
-  }, [accessToken]);
+    if (curentUser === null) {
+      fetchUser();
+    }
+  }, [curentUser]);
+
+  // useEffect(() => {
+  //   const addres = async () => {
+  //     try {
+  //       const headers = {
+  //         "Content-Type": "application/json",
+  //         Authorization: `${accessToken}`,
+  //       };
+  //       const response = await axios.get(
+  //         "http://localhost:3030/api/v1/customer/shipping-addresses",
+  //         { headers }
+  //       );
+  //       const as = response.data.metadata.shipping_ddresses;
+  //       if (as.length === 0) {
+  //         return;
+  //       } else {
+  //         setAddress(response.data.metadata.shipping_ddresses);
+  //       }
+  //     } catch (error) {
+  //       console.error("Lỗi khi lấy dữ liệu", error);
+  //     }
+  //   };
+
+  //   if (address.length === 0) {
+  //     addres();
+  //   }
+  // }, [address]);
+
   //Mở thẻ
   const handleOpen = () => {
     setOpen(true);
+  };
+  const handleOpen1 = () => {
+    setOpen1(true);
   };
 
   //Đường thành phố
@@ -113,19 +160,44 @@ const Profile = () => {
           },
         }
       );
-
-      if (response.status === 200) {
-        console.log("Data sent successfully", formData);
-
-        window.location.reload();
+      if (response.status === 201) {
+        console.log("Data sent successfully", address);
+        setAddress([]);
+        setOpen(false);
       } else {
-        console.log("Data sent successfully", formData);
-        window.location.reload();
+        console.log("Data sent false", formData);
       }
     } catch (error) {
       console.error("Failed to send data to the server", formData);
     }
   };
+
+  const handleSubmit1 = async (event) => {
+    if (event) event.preventDefault();
+    try {
+      const response = await axios.put(
+        "http://localhost:3030/api/v1/customer/profile",
+        formData1,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setCurentUser(null);
+        console.log("Data sent successfully", formData1);
+        setOpen1(false);
+      } else {
+        console.log("Data sent false");
+      }
+    } catch (error) {
+      console.error("Failed to send data to the server", formData1);
+    }
+  };
+
   /////////////
   //handlechange
   const handleChange = (event) => {
@@ -172,7 +244,13 @@ const Profile = () => {
       }
     }
   };
-
+  const handleChange1 = (event) => {
+    const { name, value } = event.target;
+    setFormData1((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
   //lấy thêm mã cho province - district
   const handleDistrictChange = (e) => {
     const selectedDistrict = e.target.value;
@@ -197,19 +275,85 @@ const Profile = () => {
           "http://localhost:3030/api/v1/customer/shipping-addresses",
           { headers }
         );
-        setAddress(response.data.metadata.shipping_ddresses);
+        const as = response.data.metadata.shipping_ddresses;
+        if (as.length === 0) {
+          return;
+        } else {
+          setAddress(response.data.metadata.shipping_ddresses);
+        }
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu", error);
       }
     };
 
-    addres();
-  }, []);
+    if (address.length === 0) {
+      addres();
+    }
+  }, [address]);
   // testLog
-  console.log(address);
 
   return (
     <div>
+      {/* Sửa thông tin */}
+      {open1 && (
+        <div className="Featured-popUp" onClick={() => setOpen1(false)}>
+          <div
+            className="FeaturedWrapper1"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <div className="Address_Wrapper">
+              <form onSubmit={handleSubmit1}>
+                <h1 style={{ fontSize: "20px" }}>Cập nhật Thông tin</h1>
+                <p style={{ fontSize: "12px", color: "gray" }}>
+                  Yêu cầu hãy nhập đầy đủ thông tin
+                </p>
+                <div className="imput-box">
+                  <input
+                    onChange={handleChange1}
+                    name="user_name"
+                    type="text"
+                    id="form3Example3c"
+                    className="form-control"
+                    placeholder="Tên Hiển thị"
+                  />
+                  <input
+                    onChange={handleChange1}
+                    name="first_name"
+                    type="text"
+                    id="form3Example3c"
+                    className="form-control"
+                    placeholder="Tên họ"
+                  />
+
+                  <input
+                    onChange={handleChange1}
+                    name="last_name"
+                    type="text"
+                    id="form3Example4c"
+                    className="form-control"
+                    placeholder="Tên"
+                  />
+                  <input
+                    onChange={handleChange1}
+                    name="phone_number"
+                    type="text"
+                    id="form3Example4c"
+                    className="form-control"
+                    placeholder="Số điện thoại"
+                  />
+
+                  <button type="submit" className="btn btn-primary btn-lg">
+                    Cập nhật thông tin
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+      {/*  */}
       {/* PopUP thêm địa chỉ */}
       {open && (
         <div className="Featured-popUp" onClick={() => setOpen(false)}>
@@ -309,6 +453,7 @@ const Profile = () => {
           </div>
         </div>
       )}
+      <Header shouldFetch={curentUser} />
       {/* main chính */}
       <div className="Profile_section">
         <div className="container-fluid ProfileSectionCtn">
@@ -339,7 +484,7 @@ const Profile = () => {
             )}
           </div>
           <div className="user_update">
-            <button>Chỉnh sửa thông tin cá nhân</button>
+            <button onClick={handleOpen1}>Chỉnh sửa thông tin cá nhân</button>
           </div>
           <h2 className="hd">Địa chỉ giao hàng</h2>
           <div className="User_address">
