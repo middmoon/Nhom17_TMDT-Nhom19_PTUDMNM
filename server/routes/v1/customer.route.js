@@ -50,7 +50,13 @@ router
   // .get("/orders", function (req, res, next) {
   //   res.render("index", { title: "thông tin các dơn hàng" });
   // })
-  .post("/orders", asyncHandler(CustomerController.checkOut));
+  .post("/orders", asyncHandler(CustomerController.checkOut))
+
+  .post(
+    "/orders/:orderId/review",
+    asyncHandler(CustomerController.reviewOrder)
+  );
+
 // .put("/orders/:orderId", function (req, res, next) {
 //   res.render("index", { title: "chi tiết đơn hàng" });
 // })

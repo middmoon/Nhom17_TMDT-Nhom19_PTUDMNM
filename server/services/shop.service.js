@@ -3,7 +3,11 @@ require("dotenv").config();
 
 const ROLE = JSON.parse(process.env.ROLES).seller;
 
-const { NotFoundError, BadRequestError } = require("../core/error.response");
+const {
+  NotFoundError,
+  BadRequestError,
+  ForbiddenError,
+} = require("../core/error.response");
 
 const { getInfoData } = require("../utils");
 
@@ -347,7 +351,157 @@ class ShopService {
 
   static async viewOrderById(orderId) {}
 
-  static async updateOrder(orderId) {}
+  static async confirmOrder(ownerId, orderId) {
+    const foundUser = await User.findOne({
+      where: { _id: ownerId },
+      attributes: ["_id"],
+    });
+
+    if (!foundUser) {
+      throw new NotFoundError("Something wrong with your info: User not found");
+    }
+
+    const foundShop = await Shop.findOne({
+      where: { seller_id: ownerId },
+      attributes: ["_id"],
+    });
+
+    if (!foundShop) {
+      throw new NotFoundError("Something wrong with your info: Shop not found");
+    }
+
+    const foundOrder = await Order.findByPk(orderId);
+
+    if (!foundOrder) {
+      throw new NotFoundError("ERR: Order not found");
+    }
+
+    if (foundOrder.shop_id !== foundShop._id) {
+      throw new ForbiddenError("ERR: The order does not belong to your shop");
+    }
+
+    if (foundOrder.status === "confirmed") {
+      throw new BadRequestError("ERR: The order is already confirmed");
+    }
+
+    foundOrder.status = "confirmed";
+    await foundOrder.save();
+
+    return { foundOrder };
+  }
+
+  static async shipOrder(ownerId, orderId) {
+    const foundUser = await User.findOne({
+      where: { _id: ownerId },
+      attributes: ["_id"],
+    });
+
+    if (!foundUser) {
+      throw new NotFoundError("Something wrong with your info: User not found");
+    }
+
+    const foundShop = await Shop.findOne({
+      where: { seller_id: ownerId },
+      attributes: ["_id"],
+    });
+
+    if (!foundShop) {
+      throw new NotFoundError("Something wrong with your info: Shop not found");
+    }
+
+    const transaction = await sequelize.transaction();
+
+    try {
+      const foundOrder = await Order.findByPk(orderId, {
+        include: [
+          {
+            model: OrderItem,
+            as: "order_items",
+            include: [{ model: Product, as: "product" }],
+          },
+        ],
+        transaction,
+      });
+
+      if (!foundOrder) {
+        throw new NotFoundError("Order not found");
+      }
+
+      if (foundOrder.shop_id !== foundShop._id) {
+        throw new ForbiddenError("The order does not belong to your shop");
+      }
+
+      if (foundOrder.status !== "confirmed") {
+        throw new BadRequestError("Order is not confirmed yet");
+      }
+
+      for (const item of foundOrder.order_items) {
+        const product = item.product;
+
+        if (product.stock_quantity < item.quantity) {
+          throw new BadRequestError(
+            `Insufficient stock for product ${product.name}`
+          );
+        }
+
+        product.stock_quantity -= item.quantity;
+        await product.save({ transaction });
+      }
+
+      foundOrder.status = "shipped";
+      await foundOrder.save({ transaction });
+
+      await transaction.commit();
+
+      return foundOrder;
+    } catch (error) {
+      await transaction.rollback();
+      throw error;
+    }
+  }
+
+  static async deliverOrder(ownerId, orderId) {
+    const foundUser = await User.findOne({
+      where: { _id: ownerId },
+      attributes: ["_id"],
+    });
+
+    if (!foundUser) {
+      throw new NotFoundError("Something wrong with your info: User not found");
+    }
+
+    const foundShop = await Shop.findOne({
+      where: { seller_id: ownerId },
+      attributes: ["_id"],
+    });
+
+    if (!foundShop) {
+      throw new NotFoundError("Something wrong with your info: Shop not found");
+    }
+
+    const foundOrder = await Order.findByPk(orderId);
+
+    if (!foundOrder) {
+      throw new NotFoundError("ERR: Order not found");
+    }
+
+    if (foundOrder.shop_id !== foundShop._id) {
+      throw new ForbiddenError("ERR: The order does not belong to your shop");
+    }
+
+    if (foundOrder.status !== "confirmed") {
+      throw new BadRequestError("Order is not confirmed yet");
+    }
+
+    if (foundOrder.status === "delivered") {
+      throw new BadRequestError("ERR: The order is already delivered");
+    }
+
+    foundOrder.status = "delivered";
+    await foundOrder.save();
+
+    return { foundOrder };
+  }
 }
 
 module.exports = ShopService;

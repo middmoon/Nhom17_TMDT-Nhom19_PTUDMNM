@@ -38,7 +38,10 @@ router
     "/product-images/:productId",
     upload.array("productImages"),
     asyncHandler(ShopController.addProductImages)
-  );
+  )
+  .post("/order/:orderId/confirm", asyncHandler(ShopController.confirmOrder))
+  .post("/order/:orderId/ship", asyncHandler(ShopController.shipOrder))
+  .post("/order/:orderId/deliver", asyncHandler(ShopController.deliverOrder));
 
 // order
 

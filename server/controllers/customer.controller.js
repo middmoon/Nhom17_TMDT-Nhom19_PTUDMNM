@@ -69,6 +69,13 @@ class CustomerController {
     }).send(res);
   };
 
+  reviewOrder = async (req, res, next) => {
+    new CREATED({
+      message: "review order ok",
+      metadata: await CustomerService.reviewOrder(req._id, req.body),
+    }).send(res);
+  };
+
   // updateCart = async (req, res, next) => {
   //   new OK({
   //     message: "update cart card",

@@ -41,6 +41,27 @@ class ShopController {
       ),
     }).send(res);
   };
+
+  confirmOrder = async (req, res, next) => {
+    new OK({
+      message: "confirm order OK",
+      metadata: await ShopService.confirmOrder(req._id, req.params.orderId),
+    }).send(res);
+  };
+
+  shipOrder = async (req, res, next) => {
+    new OK({
+      message: "ship order OK",
+      metadata: await ShopService.shipOrder(req._id, req.params.orderId),
+    }).send(res);
+  };
+
+  deliverOrder = async (req, res, next) => {
+    new OK({
+      message: "deliver order OK",
+      metadata: await ShopService.deleteProduct(req._id, req.params.orderId),
+    }).send(res);
+  };
 }
 
 module.exports = new ShopController();
