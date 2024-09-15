@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./CatSlider.css";
 import Slider from "react-slick";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import CategoryAPI from "../APIclone/CategoryAPI";
 const CatSlider = () => {
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   var settings = {
     infinite: true,
     speed: 500,
@@ -29,6 +31,12 @@ const CatSlider = () => {
 
     fetchCate();
   }, []);
+  //navigate
+  const navigate = useNavigate();
+  const handleCategoryClick = (itemName) => {
+    setSelectedCategory(itemName);
+    navigate("/list", { state: { selectedCategory: itemName } });
+  };
   return (
     <>
       <div className="catSliderSection">
@@ -40,8 +48,14 @@ const CatSlider = () => {
                 return (
                   <div className="item" key={item._id}>
                     <div className="info">
-                      <img src={item.image_url} alt="" />
-                      <h5>{item.name}</h5>
+                      <img
+                        src={item.image_url}
+                        alt=""
+                        onClick={() => handleCategoryClick(item.name)}
+                      />
+                      <h5 onClick={() => handleCategoryClick(item.name)}>
+                        {item.name}
+                      </h5>
                     </div>
                   </div>
                 );

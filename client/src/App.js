@@ -12,6 +12,8 @@ import ShopManager from "./pages/Shop/S_Manager/ShopManager";
 import ShopProduct from "./pages/Shop/S_Product/ShopProduct";
 import ShopProfile from "./pages/Shop/S_Profile/ShopProfile";
 import ShopOrder from "./pages/Shop/S_Order/ShopOrder";
+import Listing from "./pages/Listing/Listing";
+import Footer from "./component/footer/footer";
 
 function App() {
   return (
@@ -23,12 +25,15 @@ function App() {
         <Route exact={true} path="/Login" element={<Login />} />
         <Route exact={true} path="/Register" element={<Register />} />
         <Route exact={true} path="/my-profile" element={<Profile />} />
+        <Route exact={true} path="/List" element={<Listing />} />
+
         <Route path="/Shop/*" element={<ShopManager />}>
           <Route path="profile" element={<ShopProfile />} />
           <Route path="Orders" element={<ShopOrder />} />
           <Route path="Products" element={<ShopProduct />} />
         </Route>
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

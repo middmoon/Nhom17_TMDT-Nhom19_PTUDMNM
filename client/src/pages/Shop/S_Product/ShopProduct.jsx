@@ -124,9 +124,8 @@ const ShopProduct = () => {
 
       if (response.status === 200) {
         console.log("Sản phẩm được thêm thành công");
-
+        SetProduct([]);
         setOpen(false);
-        window.location.reload();
       } else {
         console.error("Không thể thêm sản phẩm");
       }
@@ -157,6 +156,7 @@ const ShopProduct = () => {
 
       if (response.status === 200) {
         alert("Thành công");
+
         setOpen(false);
         window.location.reload();
       } else {
@@ -181,13 +181,20 @@ const ShopProduct = () => {
           "http://localhost:3030/api/v1/shop/profile",
           { headers }
         );
-        SetProduct(response.data.metadata.shop.products);
+        const as = response.data.metadata.shop.products;
+        if (as.length === 0) {
+          return;
+        } else {
+          SetProduct(response.data.metadata.shop.products);
+        }
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu", error);
       }
     };
-    FetchProduct();
-  }, []);
+    if (Product.length === 0) {
+      FetchProduct();
+    }
+  }, [Product]);
   //
   //test log
   console.log();

@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import BrandAPI from "../APIclone/BrandAPI";
 import axios from "axios";
 const Brand = () => {
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [brands, setBrands] = useState([]);
   var settings = {
     infinite: true,
@@ -37,29 +38,6 @@ const Brand = () => {
         <div className="container-fluid brandSectionCtn">
           <div className="brandSectionCtn1">
             <h2 className="hd">Top cửa hàng được tin dùng</h2>
-            <ul className="list list-inline ml-auto filterTab">
-              <li className="list-inline-item">
-                <a href="">Tất cả</a>
-              </li>
-              <li className="list-inline-item">
-                <a href="">Thời trang</a>
-              </li>
-              <li className="list-inline-item">
-                <a href="">Điện thoại</a>
-              </li>
-              <li className="list-inline-item">
-                <a href="">Laptop</a>
-              </li>
-              <li className="list-inline-item">
-                <a href="">Giày dép</a>
-              </li>
-              <li className="list-inline-item">
-                <a href="">Thực phẩm</a>
-              </li>
-              <li className="list-inline-item">
-                <a href="">Đồng hồ</a>
-              </li>
-            </ul>
           </div>
           <div className="row">
             <div className="col-3">

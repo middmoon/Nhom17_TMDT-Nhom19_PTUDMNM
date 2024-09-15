@@ -67,7 +67,6 @@ const Profile = () => {
     }
   }, [curentUser]);
 
-  // useEffect(() => {
   //   const addres = async () => {
   //     try {
   //       const headers = {
