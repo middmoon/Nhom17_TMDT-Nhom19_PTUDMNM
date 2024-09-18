@@ -11,9 +11,7 @@ router
 
   .get("/products", asyncHandler(PublicController.getProducts))
 
-  .get("/products/:productId", function (req, res, next) {
-    res.render("index", { title: "chi tiết sản phẩm" });
-  })
+  .get("/products/:productId", asyncHandler(PublicController.getProductDetails))
 
   .get("/categories", asyncHandler(PublicController.getCategories))
 
@@ -29,8 +27,6 @@ router
 
   .get("/shop/:shopId", asyncHandler(PublicController.getShopDetails))
 
-  .get("/featured-products", function (req, res, next) {
-    res.render("index", { title: "gợi ý sản phẩm" });
-  });
+  .get("/featured-products", asyncHandler(PublicController.getFeaturedProduct));
 
 module.exports = router;

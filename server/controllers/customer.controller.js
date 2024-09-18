@@ -72,7 +72,12 @@ class CustomerController {
   reviewOrder = async (req, res, next) => {
     new CREATED({
       message: "review order ok",
-      metadata: await CustomerService.reviewOrder(req._id, req.body),
+      metadata: await CustomerService.reviewOrder(
+        req._id,
+        req.params.orderId,
+        req.body,
+        req.files
+      ),
     }).send(res);
   };
 

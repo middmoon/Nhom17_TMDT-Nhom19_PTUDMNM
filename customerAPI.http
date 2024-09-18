@@ -27,3 +27,17 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTc4
 
 
 ### Get all order
+
+
+# ### Review order POSTMAN
+# POST http://localhost:3030/api/v1/customer/orders/:orderId/review
+# Content-Type: application/json
+# authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTc4MDM3NiwiZXhwIjoxNzI2NjQ0Mzc2fQ.8QYbGe6Y0dw9Ttzqd2x5rKZKamFcfZkbIlQPqt2c88U
+
+# {
+#   "content": "playload",
+#   "rating_point": "playload"
+# }
+
+
+# IMG FILEs

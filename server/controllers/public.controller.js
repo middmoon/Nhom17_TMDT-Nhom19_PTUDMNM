@@ -27,7 +27,9 @@ class PublicController {
   getProductsByCategory = async (req, res, next) => {
     new OK({
       message: "update shop image OK",
-      metadata: await PublicService.getProductsByCategory(req.params),
+      metadata: await PublicService.getProductsByCategory(
+        req.params.categoryId
+      ),
     }).send(res);
   };
 
@@ -47,15 +49,22 @@ class PublicController {
 
   getShopDetails = async (req, res, next) => {
     new OK({
-      message: "update shop image OK",
+      message: "get shop detail OK",
       metadata: await PublicService.getShopDetails(req.params.shopId),
     }).send(res);
   };
 
   getFeaturedProduct = async (req, res, next) => {
     new OK({
-      message: "update shop image OK",
-      metadata: await PublicService.getShopDetails(req.params),
+      message: "get featured product  OK",
+      metadata: await PublicService.getFeaturedProduct(),
+    }).send(res);
+  };
+
+  getProductDetails = async (req, res, next) => {
+    new OK({
+      message: "get product detail OK",
+      metadata: await PublicService.getProductDetails(req.params.productId),
     }).send(res);
   };
 }

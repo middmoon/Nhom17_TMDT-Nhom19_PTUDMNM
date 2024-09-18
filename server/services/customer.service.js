@@ -12,6 +12,7 @@ const {
   Order,
   Shop,
   OrderItem,
+  ReviewImage,
 } = require("../models");
 const {
   NotFoundError,
@@ -30,6 +31,10 @@ class CustomerService {
       raw: true,
     });
 
+    if (!foundUser) {
+      throw new NotFoundError("Some thing wrong with your info");
+    }
+
     const isSeller = await User.findOne({
       where: { _id: userId },
       include: {
@@ -41,10 +46,27 @@ class CustomerService {
       attributes: ["_id"],
     });
 
+    const isAdmin = await User.findOne({
+      where: { _id: userId },
+      include: {
+        model: Role,
+        as: "roles",
+        where: { name: "admin" },
+        attributes: ["name"],
+      },
+      attributes: ["_id"],
+    });
+
     if (isSeller) {
       foundUser.isSeller = true;
     } else {
       foundUser.isSeller = false;
+    }
+
+    if (isAdmin) {
+      foundUser.isAdmin = true;
+    } else {
+      foundUser.isAdmin = false;
     }
 
     if (!foundUser) {
@@ -466,7 +488,71 @@ class CustomerService {
   static async getOrderDetails(orderId) {}
   static async cacelOrder(orderId) {}
 
-  static async reviewOrder(userId, orderId) {}
+  static async reviewOrder(userId, orderId, playload, images) {
+    try {
+      const foundUser = await User.findOne({
+        where: { _id: userId },
+        attributes: { exclude: ["password", "_id"] },
+        raw: true,
+      });
+      if (!foundUser) {
+        throw new NotFoundError("Something went wrong with your information");
+      }
+
+      const foundOrder = await Order.findOne({
+        where: { _id: orderId, customer_id: userId, status: "delivered" },
+        include: [
+          {
+            model: OrderItem,
+            as: "order_items",
+            include: {
+              model: Product,
+              as: "product",
+            },
+          },
+        ],
+      });
+      if (!foundOrder) {
+        throw new NotFoundError("No delivered order found for review");
+      }
+
+      const existingReview = await Review.findOne({
+        where: { order_id: orderId, product_id: playload.product_id },
+      });
+      if (existingReview) {
+        throw new BadRequestError(
+          "You have already reviewed this product in this order"
+        );
+      }
+
+      const newReview = await Review.create({
+        content: playload.content,
+        rating_point: playload.rating_point,
+        order_id: orderId,
+      });
+
+      const uploadedImages = [];
+      for (const image of images) {
+        const result = await cloudinary.uploader.upload(image.path, {
+          folder: "reviews",
+        });
+
+        const newReviewImage = await ReviewImage.create({
+          url: result.secure_url,
+          review_id: newReview._id,
+        });
+
+        uploadedImages.push(newReviewImage);
+      }
+
+      return {
+        review: newReview,
+        images: uploadedImages,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = CustomerService;

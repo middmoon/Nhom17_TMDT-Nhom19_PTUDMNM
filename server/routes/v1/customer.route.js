@@ -54,6 +54,7 @@ router
 
   .post(
     "/orders/:orderId/review",
+    upload.array("reviewImages", 5),
     asyncHandler(CustomerController.reviewOrder)
   );
 

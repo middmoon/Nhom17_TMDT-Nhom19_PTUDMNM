@@ -16,19 +16,16 @@ class PublicService {
       inStock,
       sortBy = "createdAt",
       order = "desc",
-      featured,
-      discounted,
       new: isNew,
       page = 1,
-      limit = 10,
+      limit = 20,
     } = query;
 
     let filters = {};
 
-    // Tìm kiếm theo tên sản phẩm
     if (keyword) filters.name = { [Op.like]: `%${keyword}%` };
 
-    if (category) filters.category_id = category;
+    if (category) filters["$categories._id$"] = category;
 
     if (brand) filters.brand_id = brand;
 
@@ -37,11 +34,15 @@ class PublicService {
 
     if (minRating) filters.rating = { [Op.gte]: minRating };
 
-    if (inStock) filters.inStock = true;
+    if (inStock) filters.stock_quantity = { [Op.gt]: 0 };
 
-    if (featured) filters.featured = true;
+    if (discounted) filters.sale_price = { [Op.ne]: null };
 
-    if (discounted) filters.discounted = true;
+    if (isNew) {
+      filters.createdAt = {
+        [Op.gte]: new Date(new Date() - 30 * 24 * 60 * 60 * 1000), // 30 days
+      };
+    }
 
     if (isNew)
       filters.createdAt = {
@@ -62,7 +63,7 @@ class PublicService {
             as: "categories",
             attributes: ["_id", "name"],
             through: {
-              attributes: [], // This excludes ProductCategory fields from the result
+              attributes: [],
             },
           },
           {
@@ -70,50 +71,38 @@ class PublicService {
             as: "brand",
             attributes: ["_id", "name"],
           },
-          { model: ProductImage, as: "images" },
+          {
+            model: ProductImage,
+            as: "images",
+            attributes: ["_id", "url"],
+          },
+          {
+            model: Review,
+            as: "reviews",
+            attributes: ["_id", "rating", "comment"],
+            include: [
+              {
+                model: ReviewImages,
+                as: "review",
+                attributes: ["_id", "url"],
+              },
+            ],
+          },
+          {
+            model: Shop,
+            as: "shop",
+          },
         ],
       });
 
       if (!products) {
-        throw new NotFoundError("ERR: can not get products");
-      }
-
-      // Tìm danh mục chứa sản phẩm theo keyword
-      const categories = await Category.findAll({
-        include: [
-          {
-            model: Product,
-            as: "products",
-            where: keyword ? { name: { [Op.like]: `%${keyword}%` } } : {},
-          },
-        ],
-      });
-
-      if (!categories) {
-        throw new NotFoundError("ERR: can not get categories");
-      }
-
-      // Tìm thương hiệu chứa sản phẩm theo keyword
-      const brands = await Brand.findAll({
-        include: [
-          {
-            model: Product,
-            as: "products",
-            where: keyword ? { name: { [Op.like]: `%${keyword}%` } } : {},
-          },
-        ],
-      });
-
-      if (!brands) {
-        throw new NotFoundError("ERR: can not get brands");
+        throw new NotFoundError("ERR: cannot get products");
       }
 
       const totalPages = Math.ceil(products.count / limit);
 
       return {
         products: products.rows,
-        categories,
-        brands,
         pagination: {
           currentPage: parseInt(page),
           totalPages,
@@ -128,7 +117,7 @@ class PublicService {
 
   static async getProductDetails(productId) {
     const foundProduct = await Product.findOne({
-      where: { _id: id },
+      where: { _id: productId },
       include: [
         {
           model: Review,
@@ -143,11 +132,13 @@ class PublicService {
         {
           model: Category,
           as: "categories",
+          attributes: ["_id", "name"],
           through: { attributes: [] },
         },
         {
           model: Brand,
           as: "brand",
+          attributes: ["_id", "name"],
         },
         {
           model: Shop,
@@ -234,7 +225,47 @@ class PublicService {
     };
   }
 
-  static async getFeaturedProduct() {}
+  static async getFeaturedProduct() {
+    try {
+      const featuredProducts = await Product.findAndCountAll({
+        limit: 20,
+        order: [["createdAt", "desc"]],
+        include: [
+          {
+            model: Category,
+            as: "categories",
+            attributes: ["_id", "name"],
+            through: {
+              attributes: [],
+            },
+          },
+          {
+            model: Brand,
+            as: "brand",
+            attributes: ["_id", "name"],
+          },
+          { model: ProductImage, as: "images" },
+          {
+            model: Shop,
+            as: "shop",
+            attributes: ["_id", "name", "img_url"],
+          },
+        ],
+      });
+
+      if (!featuredProducts) {
+        throw new NotFoundError("ERR: No featured products found");
+      }
+
+      return {
+        featuredProducts: featuredProducts.rows,
+        totalItems: featuredProducts.count,
+      };
+    } catch (error) {
+      console.error("Error fetching featured products:", error);
+      throw error;
+    }
+  }
 
   // static async searchingProducts() {
   //   app.get('/api/v1/p/products', async (req, res) => {
