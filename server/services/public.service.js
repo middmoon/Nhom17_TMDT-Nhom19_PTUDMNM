@@ -126,7 +126,42 @@ class PublicService {
     }
   }
 
-  static async getProductDetails(productId) {}
+  static async getProductDetails(productId) {
+    const foundProduct = await Product.findOne({
+      where: { _id: id },
+      include: [
+        {
+          model: Review,
+          as: "reviews",
+          include: [
+            {
+              model: ProductImage,
+              as: "images",
+            },
+          ],
+        },
+        {
+          model: Category,
+          as: "categories",
+          through: { attributes: [] },
+        },
+        {
+          model: Brand,
+          as: "brand",
+        },
+        {
+          model: Shop,
+          as: "shop",
+        },
+      ],
+    });
+
+    if (!foundProduct) {
+      throw new NotFoundError("Can not find this product");
+    }
+
+    return { product: foundProduct };
+  }
 
   static async getCategories() {
     const categories = await Category.findAll();

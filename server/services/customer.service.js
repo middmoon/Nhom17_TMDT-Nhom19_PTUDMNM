@@ -464,8 +464,9 @@ class CustomerService {
 
   static async getOrders(userId) {}
   static async getOrderDetails(orderId) {}
-  static async reviewOrder(orderId) {}
   static async cacelOrder(orderId) {}
+
+  static async reviewOrder(userId, orderId) {}
 }
 
 module.exports = CustomerService;
