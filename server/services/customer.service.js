@@ -488,7 +488,7 @@ class CustomerService {
   static async getOrderDetails(orderId) {}
   static async cacelOrder(orderId) {}
 
-  static async reviewOrder(userId, orderId, playload, images) {
+  static async reviewOrder(userId, orderId, payload, images) {
     try {
       const foundUser = await User.findOne({
         where: { _id: userId },
@@ -517,7 +517,7 @@ class CustomerService {
       }
 
       const existingReview = await Review.findOne({
-        where: { order_id: orderId, product_id: playload.product_id },
+        where: { order_id: orderId, product_id: payload.product_id },
       });
       if (existingReview) {
         throw new BadRequestError(
@@ -526,23 +526,25 @@ class CustomerService {
       }
 
       const newReview = await Review.create({
-        content: playload.content,
-        rating_point: playload.rating_point,
+        content: payload.content,
+        rating_point: payload.rating_point,
         order_id: orderId,
       });
 
       const uploadedImages = [];
-      for (const image of images) {
-        const result = await cloudinary.uploader.upload(image.path, {
-          folder: "reviews",
-        });
+      if (images && images.length > 0) {
+        for (const image of images) {
+          const result = await cloudinary.uploader.upload(image.path, {
+            folder: "reviews",
+          });
 
-        const newReviewImage = await ReviewImage.create({
-          url: result.secure_url,
-          review_id: newReview._id,
-        });
+          const newReviewImage = await ReviewImage.create({
+            url: result.secure_url,
+            review_id: newReview._id,
+          });
 
-        uploadedImages.push(newReviewImage);
+          uploadedImages.push(newReviewImage);
+        }
       }
 
       return {
