@@ -9,7 +9,7 @@ const {
   ProductImage,
   Shop,
   Review,
-  ReviewImages,
+  ReviewImage,
 } = require("../models");
 
 class PublicService {
@@ -88,11 +88,11 @@ class PublicService {
           {
             model: Review,
             as: "reviews",
-            attributes: ["_id", "rating", "comment"],
+            attributes: ["_id", "rating_point", "content"], // Update to correct field names in Review model
             include: [
               {
-                model: ReviewImages,
-                as: "review",
+                model: ReviewImage,
+                as: "review_images", // Use the correct alias as defined in the Review model
                 attributes: ["_id", "url"],
               },
             ],
@@ -100,6 +100,7 @@ class PublicService {
           {
             model: Shop,
             as: "shop",
+            attributes: ["_id", "name", "img_url"],
           },
         ],
       });
