@@ -2,7 +2,15 @@
 
 const { Op } = require("sequelize");
 const { NotFoundError } = require("../core/error.response");
-const { Product, Category, Brand, ProductImage, Shop } = require("../models");
+const {
+  Product,
+  Category,
+  Brand,
+  ProductImage,
+  Shop,
+  Review,
+  ReviewImages,
+} = require("../models");
 
 class PublicService {
   static async getProducts(query) {
