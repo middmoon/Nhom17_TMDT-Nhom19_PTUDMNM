@@ -11,7 +11,7 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTg4
 ### View cart
 GET http://localhost:3030/api/v1/customer/cart/
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTc4MDM3NiwiZXhwIjoxNzI2NjQ0Mzc2fQ.8QYbGe6Y0dw9Ttzqd2x5rKZKamFcfZkbIlQPqt2c88U
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTc4MDM3NiwiZXhwIjoxNzI2NjQ0Mzc2fQ.8QYbGe6Y0dw9Ttzqd  2x5rKZKamFcfZkbIlQPqt2c88U
 ### Checkout
 POST http://localhost:3030/api/v1/customer/orders
 Content-Type: application/json

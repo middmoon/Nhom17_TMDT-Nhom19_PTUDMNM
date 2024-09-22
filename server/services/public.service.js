@@ -14,6 +14,7 @@ class PublicService {
       maxPrice,
       minRating,
       inStock,
+      discounted,
       sortBy = "createdAt",
       order = "desc",
       new: isNew,
