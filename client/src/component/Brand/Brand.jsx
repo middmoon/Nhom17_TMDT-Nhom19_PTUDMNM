@@ -37,7 +37,7 @@ const Brand = () => {
       <div className="brandSection">
         <div className="container-fluid brandSectionCtn">
           <div className="brandSectionCtn1">
-            <h2 className="hd">Top cửa hàng được tin dùng</h2>
+            <h2 className="hd">Top thương hiệu được tin dùng</h2>
           </div>
           <div className="row">
             <div className="col-3">

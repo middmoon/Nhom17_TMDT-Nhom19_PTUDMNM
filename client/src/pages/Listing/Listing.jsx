@@ -63,7 +63,7 @@ const Listing = () => {
             (category) => category.name === selectedCategory
           )
         )
-      : prodct
+      : []
     : prodct;
   return (
     <div>

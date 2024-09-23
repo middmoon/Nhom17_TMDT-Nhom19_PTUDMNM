@@ -1,0 +1,185 @@
+.detailsPage {
+  display: flex;
+  justify-content: center;
+}
+.deatailProdct {
+  max-width: 1600px;
+}
+.priceSelec {
+  display: flex;
+  align-items: center;
+}
+
+.rPrice {
+  font-size: 35px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.oPrice {
+  text-decoration: line-through;
+  font-weight: 600;
+  color: red;
+  margin-left: 10px;
+}
+
+.If_Decreption {
+  font-size: 13px;
+  font-weight: 600;
+  color: gray;
+  max-height: 200px;
+  height: 200px;
+  width: 500px;
+  overflow-y: scroll;
+}
+
+.iiz__img {
+  min-width: 500px;
+  width: 100% !important;
+  max-height: 500px !important;
+  object-fit: cover !important;
+  max-width: 500px !important;
+  object-fit: cover;
+}
+.productZoom {
+  width: max-content;
+  height: auto;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 25px;
+}
+
+.ZoomSlider img {
+  width: 100%;
+  max-height: 95px;
+  object-fit: cover;
+}
+
+.ZoomSlider {
+  width: 85.9% !important;
+  height: auto;
+}
+
+.ZoomSlider .slick-arrow.slick-prev {
+  left: 1.2% !important;
+  background-color: #72fdcf;
+  border-radius: 60%;
+  z-index: 1;
+}
+.ZoomSlider .slick-arrow.slick-next {
+  right: 1.5% !important;
+  background-color: #72fdcf;
+  border-radius: 60%;
+  z-index: 1;
+}
+.ZoomSlider {
+  padding-top: 10px;
+}
+.ZoomSlider .slick-slide {
+  padding-right: 10px !important;
+  overflow: hidden;
+}
+
+.Sale_rpc {
+  border-radius: 10px;
+  background-color: #6d4117;
+  color: white;
+  padding: 3px 20px;
+  width: max-content;
+  font-weight: 600;
+}
+.productInfo {
+  padding-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.AddCardSection {
+  display: flex;
+  width: 100%;
+  height: auto;
+  align-items: center;
+  gap: 20px;
+}
+.AddCardSection .CounterSec {
+  width: 100px;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid #6d4117;
+  overflow: hidden;
+  padding: 5px;
+}
+
+.AddCardSection .CounterSec input {
+  width: 70px;
+  height: 25px;
+  border: 0px;
+  outline: none;
+  margin-left: 10px;
+}
+.AddCardSection .AddCard {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  background-color: #6d4117;
+  border-radius: 5px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+.AddCardSection .AddCard:hover {
+  background-color: #54c963;
+  transform: translateY(-3px);
+}
+.AddCardSection .AddCard p {
+  margin: 0;
+}
+
+.AddCardSection .Share {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+.AddCardSection .Share p {
+  margin: 0;
+}
+.AddCardSection .Share:hover {
+  background-color: #dadada;
+  transform: translateY(-3px);
+}
+.copy-message {
+  background-color: #ccc;
+  color: black;
+  padding: 10px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 0.9;
+  transition: opacity 0.5s ease;
+}
+
+.part22 {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.part22 {
+  padding-top: 20px;
+}
+.prodctAdv img {
+  width: 100%;
+}

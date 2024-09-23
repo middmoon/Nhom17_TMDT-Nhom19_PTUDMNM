@@ -23,6 +23,7 @@ const ProductHome = ({ selectedCategory }) => {
 
     fetchProduct();
   }, []);
+  console.log(prodct);
   //filter
   const filteredProducts = selectedCategory
     ? prodct.filter((product) =>
