@@ -13,7 +13,7 @@ class PublicController {
   getProductDetails = async (req, res, next) => {
     new OK({
       message: "get product detail OK",
-      metadata: await PublicService.getProductDetails(req.params),
+      metadata: await PublicService.getProductDetails(req.params.productId),
     }).send(res);
   };
 

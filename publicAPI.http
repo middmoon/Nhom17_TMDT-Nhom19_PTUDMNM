@@ -20,4 +20,4 @@ GET http://localhost:3030/api/v1/p/featured-products
 GET http://localhost:3030/api/v1/p/categories/:categoryId/products?{}
 
 ### chi tiết sản phẩm
-GET http://localhost:3030/api/v1/p/products/:productId
+GET http://localhost:3030/api/v1/p/products/2

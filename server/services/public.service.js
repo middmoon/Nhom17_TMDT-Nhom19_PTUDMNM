@@ -130,12 +130,18 @@ class PublicService {
       where: { _id: productId },
       include: [
         {
+          model: ProductImage,
+          as: "images",
+          attributes: ["_id", "url"],
+        },
+        {
           model: Review,
           as: "reviews",
           include: [
             {
-              model: ProductImage,
-              as: "images",
+              model: ReviewImage,
+              as: "review_images", // Use the correct alias as defined in the Review model
+              attributes: ["_id", "url"],
             },
           ],
         },

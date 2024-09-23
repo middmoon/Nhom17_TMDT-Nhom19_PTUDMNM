@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import "./ProductDetail.css";
 import Header from "../../component/header/header";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.css";
@@ -6,12 +7,21 @@ import InnerImageZoom from "react-inner-image-zoom";
 import Slider from "react-slick";
 import { ProdctImG } from "../../pages/Detail/ProductIMG";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import { faCartShopping, faShare } from "@fortawesome/free-solid-svg-icons";
 const ProductDetail = () => {
-  const [zoomImage, setZoomImage] = useState(ProdctImG[1].image);
+  //all state
+
   const [showMessage, setShowMessage] = useState(false);
   const [bigImageSize, setBigImgSize] = useState();
+  const [product, setProduct] = useState(null);
+  const [zoomImage, setZoomImage] = useState(null);
+  //Biến môi trường
+  ///////
   const zoomSlider = useRef();
+  const { id } = useParams();
+  //Slide
+  ///////
   var settings = {
     infinite: false,
     speed: 500,
@@ -22,7 +32,37 @@ const ProductDetail = () => {
   const goto = (url) => {
     setZoomImage(url);
   };
-  console.log(ProdctImG);
+
+  //fetchProductDetail
+  ////////////
+  useEffect(() => {
+    const fetchProductDetail = async () => {
+      try {
+        const headers = {
+          "Content-Type": "application/json",
+        };
+        const response = await axios.get(
+          `http://localhost:3030/api/v1/p/products/${id}`,
+          { headers }
+        );
+
+        setProduct(response.data.metadata.product);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu", error);
+      }
+    };
+
+    fetchProductDetail();
+  }, [id]);
+
+  ///ảnh zoom
+  useEffect(() => {
+    if (product && product.images && product.images.length > 0) {
+      setZoomImage(product.images[1].url);
+    }
+  }, [product]);
+  ////test log
+  console.log(product);
 
   //share
   const handleShare = () => {
