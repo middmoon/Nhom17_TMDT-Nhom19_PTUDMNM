@@ -354,7 +354,10 @@ class CustomerService {
 
       const shopId = product.shop_id;
 
-      if (cart.items.length > 0) {
+      if (!cart.items || cart.items.length === 0) {
+        // If items don't exist or no items, proceed
+        const shopId = product.shop_id;
+      } else {
         const firstItemShopId = cart.items[0].product.shop_id;
 
         if (shopId !== firstItemShopId) {
