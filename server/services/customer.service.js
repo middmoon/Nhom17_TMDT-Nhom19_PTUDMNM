@@ -306,11 +306,23 @@ class CustomerService {
   static async addProductToCart(userId, payload) {
     const { productId, quantity } = payload;
 
-    const foundShop = await Shop.findOne({
-      where: { seller_id: userId },
+    const foundProduct = await Product.findOne({
+      where: { _id: productId },
     });
 
-    if (foundShop) {
+    if (!foundProduct) {
+      throw new ForbiddenError("Can not find the product product");
+    }
+
+    const foundShop = await Shop.findOne({
+      where: { _id: foundProduct.shop_id },
+    });
+
+    if (!foundShop) {
+      throw new ForbiddenError("Can not find the shop");
+    }
+
+    if (foundShop.seller_id === userId) {
       throw new ForbiddenError("You can not make order for your shop");
     }
 
