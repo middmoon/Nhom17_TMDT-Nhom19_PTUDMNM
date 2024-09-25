@@ -311,7 +311,7 @@ class CustomerService {
     });
 
     if (foundShop) {
-      throw ForbiddenError("You can not make order for your shop");
+      throw new ForbiddenError("You can not make order for your shop");
     }
 
     try {
