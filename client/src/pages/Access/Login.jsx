@@ -1,21 +1,24 @@
 import React, { useState } from "react";
 import "./css/Login.css";
 import { loginUser } from "./Request/Request";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../../component/header/header";
 
 const Login = () => {
   const [option, setOption] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const currentLocation = useLocation();
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = {
       option: option,
       password: password,
     };
-    await loginUser(user, setError, navigate);
+
+    await loginUser(user, setError, navigate, currentLocation);
   };
 
   return (

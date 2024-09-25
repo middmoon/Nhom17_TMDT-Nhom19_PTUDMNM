@@ -13,7 +13,27 @@ const logoutHeaders = {
 
 axios.defaults.withCredentials = true;
 
-export const loginUser = async (user, setError, navigate) => {
+// export const loginUser = async (user, setError, navigate) => {
+//   try {
+//     const r = await axios.post(urlLogin, user, loginHeaders);
+
+//     const data = {
+//       message: r.data.message,
+//       statusCode: r.data.statusCode,
+//       metadata: {
+//         accessToken: r.data.metadata.accessToken,
+//       },
+//     };
+//     navigate("/");
+//     window.location.reload();
+//     return data;
+//   } catch (error) {
+//     // Xử lý lỗi
+//     setError("Tên tài khoản hoặc mật khẩu không đúng");
+//   }
+// };
+
+export const loginUser = async (user, setError, navigate, currentLocation) => {
   try {
     const r = await axios.post(urlLogin, user, loginHeaders);
 
@@ -24,11 +44,16 @@ export const loginUser = async (user, setError, navigate) => {
         accessToken: r.data.metadata.accessToken,
       },
     };
-    navigate("/");
-    window.location.reload();
+
+    // Kiểm tra xem currentLocation.state?.from có tồn tại không
+    const from = currentLocation.state?.from?.pathname || "/"; // Mặc định chuyển về /home nếu không có trang trước đó
+
+    // Điều hướng đến trang trước hoặc mặc định
+    navigate(from, { replace: true });
+
     return data;
   } catch (error) {
-    // Xử lý lỗi
+    // Xử lý lỗi và hiển thị thông báo
     setError("Tên tài khoản hoặc mật khẩu không đúng");
   }
 };

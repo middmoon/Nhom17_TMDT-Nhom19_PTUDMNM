@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../header/header.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../../pages/Access/Request/Request.js";
 import {
@@ -24,6 +24,7 @@ const Header = (shouldFetch) => {
   const [curentUser, setCurentUser] = useState(null);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
   const [categories, setCategories] = useState([
     "Tất cả",
     "Điện thoại",
@@ -269,12 +270,20 @@ const Header = (shouldFetch) => {
                     >
                       <ul className="dropdownMenu">
                         <li>
-                          <Link to="/Login" className="full-link">
+                          <Link
+                            to="/Login"
+                            state={{ from: location }}
+                            className="full-link"
+                          >
                             Đăng nhập
                           </Link>
                         </li>
                         <li>
-                          <Link to="/Register" className="full-link">
+                          <Link
+                            to="/Register"
+                            state={{ from: location }}
+                            className="full-link"
+                          >
                             Đăng ký
                           </Link>
                         </li>

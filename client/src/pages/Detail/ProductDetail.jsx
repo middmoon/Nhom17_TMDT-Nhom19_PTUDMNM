@@ -19,9 +19,11 @@ const ProductDetail = () => {
   const [showMessage, setShowMessage] = useState(false);
   const [showMessage1, setShowMessage1] = useState(false);
   const [showMessage2, setShowMessage2] = useState(false);
+  const [showMessage3, setShowMessage3] = useState(false);
+
   const [product, setProduct] = useState(null);
   const [zoomImage, setZoomImage] = useState(null);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
   ///Lay cookie
   function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -74,13 +76,6 @@ const ProductDetail = () => {
   //Add to card
   ///////////
   const handleAddToCart = async () => {
-    if (!product) return;
-    if (!accessToken) {
-      setShowMessage1(true);
-      setTimeout(() => {
-        setShowMessage1(false);
-      }, 1000);
-    }
     try {
       const headers = {
         "Content-Type": "application/json",
@@ -107,9 +102,17 @@ const ProductDetail = () => {
         console.log(payload);
       } else {
         console.log("Data sent false");
+        setShowMessage3(true);
+        setTimeout(() => {
+          setShowMessage3(false);
+        }, 1000);
       }
     } catch (error) {
       console.error("Lỗi khi thêm sản phẩm vào giỏ hàng", error);
+      setShowMessage1(true);
+      setTimeout(() => {
+        setShowMessage1(false);
+      }, 1000);
     }
   };
 
@@ -298,6 +301,11 @@ const ProductDetail = () => {
                         {showMessage2 && (
                           <div className="addCart-message">
                             Thêm vào giỏ thành công
+                          </div>
+                        )}
+                        {showMessage3 && (
+                          <div className="error-message">
+                            Lỗi ! Thử lại sau nhé
                           </div>
                         )}
                       </div>

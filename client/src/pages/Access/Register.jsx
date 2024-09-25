@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./css/Register.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleHalfStroke } from "@fortawesome/free-solid-svg-icons";
@@ -8,7 +8,7 @@ const { useState } = require("react");
 
 const Register = () => {
   const navigate = useNavigate();
-
+  const location = useLocation();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -36,7 +36,7 @@ const Register = () => {
 
       if (response.ok) {
         console.log("Data sent successfully");
-        navigate("/Login");
+        navigate("/Login", { state: location.state });
       } else {
         console.error("Failed to send data to the server");
         alert("tài khoản đã tồn tại");
