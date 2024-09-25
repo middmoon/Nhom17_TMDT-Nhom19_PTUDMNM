@@ -27,12 +27,18 @@
   font-size: 13px;
   font-weight: 600;
   color: gray;
-  max-height: 200px;
-  height: 200px;
+  height: auto;
+  min-height: 200px;
+  max-height: 250px;
   width: 500px;
   overflow-y: scroll;
+  padding: 5px;
+  border: 1px solid rgb(233, 233, 233);
+  border-radius: 10px;
 }
-
+.If_Decreption::-webkit-scrollbar {
+  display: none;
+}
 .iiz__img {
   min-width: 500px;
   width: 100% !important;
@@ -92,6 +98,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-height: 700px;
+  overflow-y: scroll;
 }
 
 .AddCardSection {
@@ -170,7 +178,34 @@
   opacity: 0.9;
   transition: opacity 0.5s ease;
 }
-
+.Alert-message {
+  background-color: #fa8500;
+  color: black;
+  font-weight: 600;
+  padding: 10px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 0.9;
+  transition: opacity 0.5s ease;
+}
+.addCart-message {
+  background-color: #14cf03;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  padding: 10px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 0.9;
+  transition: opacity 0.5s ease;
+}
 .part22 {
   display: flex;
   align-items: center;
@@ -182,4 +217,57 @@
 }
 .prodctAdv img {
   width: 100%;
+}
+
+.quantity_inf {
+  color: gray;
+  margin: 0;
+  font-weight: 600;
+}
+
+.priceif {
+  margin: 0;
+  color: #54c963;
+  font-weight: 600;
+}
+
+.SellInfo {
+  width: 100%;
+  min-height: 70px;
+  cursor: pointer;
+  display: flex;
+  justify-content: start;
+  gap: 10px;
+}
+
+.SellInfo img {
+  width: 70px;
+  height: 70px;
+}
+.SellInfoName {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 0.5px solid rgb(212, 212, 212);
+  padding: 10px;
+}
+.SellInfoName p {
+  margin: 0;
+}
+.SellAnother {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.SellAnother p {
+  margin: 0;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  font-weight: 600;
+}
+.SellAnother p span {
+  color: #54c963;
 }

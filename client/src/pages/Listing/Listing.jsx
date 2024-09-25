@@ -94,7 +94,7 @@ const Listing = () => {
                 <div className="item">
                   {filteredProducts.slice(0, 10).map((product) => (
                     <div className="productThumb1" key={product._id}>
-                      <Link>
+                      <Link to={`/List/${product._id}`}>
                         <div className="imgWrapper">
                           <img
                             src={
@@ -115,7 +115,9 @@ const Listing = () => {
                             : "Unknown Category"}
                         </span>
                         <h4 className="productThumbTitle">
-                          <Link>{product.name}</Link>
+                          <Link to={`/List/${product._id}`}>
+                            {product.name}
+                          </Link>
                         </h4>
                         <div className="productThumbctn">
                           <div className="pdt-pr">
@@ -128,7 +130,13 @@ const Listing = () => {
                               <span style={{ fontSize: "10px" }}>VND</span>
                             </p>
                           </div>
-                          <div className="adCa">Thêm vào giỏ</div>
+                          <Link
+                            to={`/List/${product._id}`}
+                            className="adCa"
+                            style={{ textDecoration: "none" }}
+                          >
+                            Xem chi tiết
+                          </Link>
                         </div>
                       </div>
                     </div>

@@ -11,7 +11,7 @@ GET http://localhost:3030/api/v1/p/brands
 GET http://localhost:3030/api/v1/p/shop/1
 
 ### danh sách sản phẩm theo thương hiệu
-GET http://localhost:3030/api/v1/p/brands/:brandsId/products?{}
+GET http://localhost:3030/api/v1/p/brands/1/products
 
 ### gợi ý sản phẩm
 GET http://localhost:3030/api/v1/p/featured-products
