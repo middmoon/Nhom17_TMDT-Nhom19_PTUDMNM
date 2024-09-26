@@ -15,6 +15,7 @@ import ShopOrder from "./pages/Shop/S_Order/ShopOrder";
 import Listing from "./pages/Listing/Listing";
 import Footer from "./component/footer/footer";
 import ProductDetail from "./pages/Detail/ProductDetail";
+import InCart from "./pages/InCart/InCart";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route exact={true} path="/my-profile" element={<Profile />} />
         <Route exact={true} path="/List" element={<Listing />} />
         <Route exact={true} path="/List/:id" element={<ProductDetail />} />
+        <Route exact={true} path="/Cart" element={<InCart />} />
 
         <Route path="/Shop/*" element={<ShopManager />}>
           <Route path="profile" element={<ShopProfile />} />

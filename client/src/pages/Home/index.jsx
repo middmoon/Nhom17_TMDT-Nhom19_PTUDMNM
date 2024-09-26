@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import Header from "../../component/header/header";
 import ProductHome from "../../component/ProductHome/ProductHome";
+import FeatureHome from "../../component/FeatureHome/FeatureHome";
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   function getCookie(name) {
@@ -76,6 +77,7 @@ const Home = () => {
         <p className="morebtn" onClick={handleNavigation}>
           Xem thêm ...
         </p>
+        <FeatureHome />
       </section>
     </div>
   );

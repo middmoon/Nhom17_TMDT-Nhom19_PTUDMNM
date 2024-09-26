@@ -113,13 +113,25 @@ const Header = (shouldFetch) => {
       setisOpenDropDown1(!isOpenDropDown1);
     }
   };
-
+  const home = () => {
+    navigate("/");
+  };
+  const cart = () => {
+    navigate("/cart");
+  };
   return (
     <>
       <header>
         <div className="container-fluid">
           <div className="row">
-            <div className=" col-lg-2 ">{/* <img src={Logo} alt="" /> */}</div>
+            <div className=" col-lg-2 logos">
+              <img
+                className="logoHeader"
+                src="/IMG/Home/logo-no-background.png"
+                alt=""
+                onClick={home}
+              />
+            </div>
             {/* Header */}
             <div className=" col-lg-5 ">
               <div className="headerSearch ">
@@ -196,7 +208,7 @@ const Header = (shouldFetch) => {
                       </ClickAwayListener>
                     )}
                   </div>
-                  <div className="loginNav">
+                  <div className="loginNav" onClick={cart}>
                     <div className="navButtonn">
                       <FontAwesomeIcon
                         icon={faCartShopping}
