@@ -153,3 +153,17 @@ header .headerSearch .search .searchIcon {
 .Shop-regis-Drop button:hover {
   transform: translateY(-5px);
 }
+.logos {
+  display: flex;
+  justify-content: center;
+}
+.logoHeader {
+  height: 40px;
+  padding: 5px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  transition: ease-in-out 0.3s;
+}
+.logoHeader:hover {
+  background-color: #ececec;
+}
