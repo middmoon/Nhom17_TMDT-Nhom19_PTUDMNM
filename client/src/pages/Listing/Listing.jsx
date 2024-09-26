@@ -88,6 +88,8 @@ const Listing = () => {
                   })}
                 </div>
               </div>
+
+              <img src="/IMG/Home/sale1.png" alt="" className="styleIMGlisst" />
             </div>
             <div className="col-md-9">
               <div className="productListRow">

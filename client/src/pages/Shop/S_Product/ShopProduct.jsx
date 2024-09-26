@@ -3,6 +3,7 @@ import "./ShopProduct.css";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import UserUpcoming from "../APIclone/UserUpcoming";
 const ShopProduct = () => {
   //state
   const [open, setOpen] = useState(false);
@@ -241,7 +242,31 @@ const ShopProduct = () => {
             );
           })}
         </div>
-        <div className="SC_right"></div>
+        <div className="Dashboard-content-right">
+          <div className="Db-title">
+            <h1>Upcoming Visitors</h1>
+          </div>
+          {/* user info */}
+          <div className="Db-container">
+            {UserUpcoming.map((user) => {
+              return (
+                <div className="Db-visitor" key={user.id}>
+                  <div className="Visitor">
+                    <img
+                      src={user.image_user}
+                      alt="User Avatar"
+                      className="userImgsss"
+                    />
+                    <div className="Visitor-n">
+                      <span className="Visitor-Name">{user.Name}</span>
+                      <span className="Upcoming-date">{user.UpCm}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
       {open && (
         <div className="CreateProoduct" onClick={() => setOpen(false)}>

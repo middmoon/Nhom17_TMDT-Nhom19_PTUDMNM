@@ -9,6 +9,7 @@ import axios from "axios";
 import Header from "../../component/header/header";
 import ProductHome from "../../component/ProductHome/ProductHome";
 import FeatureHome from "../../component/FeatureHome/FeatureHome";
+import Sale from "../../component/SaleImg/Sale";
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   function getCookie(name) {
@@ -30,6 +31,7 @@ const Home = () => {
       <HomeSlider />
       <CatSlider />
       <Brand />
+      <Sale />
       <section className="homeProducts">
         <div className="container-fluid homeProductsCtn">
           <h2 className="hd">Sản phẩm mới</h2>

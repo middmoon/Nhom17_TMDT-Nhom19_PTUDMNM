@@ -77,3 +77,13 @@
 .productThumb1:hover {
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
+
+.styleIMGlisst {
+  width: 100%;
+  max-width: 300px;
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}

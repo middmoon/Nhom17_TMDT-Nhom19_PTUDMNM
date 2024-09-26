@@ -93,12 +93,12 @@ const InCart = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:3030/api/v1/test",
+        "http://localhost:3030/api/v1/customer/orders",
         data,
         { headers }
       );
 
-      console.log("Đặt hàng thành công:", response.data);
+      console.log("Đặt hàng thành công");
     } catch (error) {
       console.error("Lỗi khi gửi dữ liệu:", error);
     }
@@ -120,7 +120,10 @@ const InCart = () => {
                   <p>
                     Có{" "}
                     <span style={{ color: "#00ff62", fontWeight: "600" }}>
-                      {cart && cart.shops[0].items.length > 0
+                      {cart &&
+                      cart.shops &&
+                      cart.shops.length > 0 &&
+                      cart.shops[0].items.length > 0
                         ? cart.shops[0].items.length
                         : 0}
                     </span>{" "}
@@ -129,7 +132,10 @@ const InCart = () => {
                 </div>
               </div>
               <div className="cartWrapper">
-                {cart && cart.shops[0].items.length > 0 ? (
+                {cart &&
+                cart.shops &&
+                cart.shops.length > 0 &&
+                cart.shops[0].items.length > 0 ? (
                   <div className="table-responsive">
                     <table className="table">
                       <thead>
