@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
         as: "order",
       });
 
-      this.belongsTo(models.Product, {
-        foreignKey: "product_id",
-        as: "product",
-      });
+      // this.belongsTo(models.Product, {
+      //   foreignKey: "product_id",
+      //   as: "product",
+      // });
 
       this.hasMany(models.ReviewImage, {
         foreignKey: "review_id",

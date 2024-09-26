@@ -28,10 +28,10 @@ module.exports = (sequelize, DataTypes) => {
         as: "images",
       });
 
-      this.hasMany(models.Review, {
-        foreignKey: "product_id",
-        as: "reviews",
-      });
+      // this.hasMany(models.Review, {
+      //   foreignKey: "product_id",
+      //   as: "reviews",
+      // });
 
       this.belongsToMany(models.Order, {
         through: models.OrderItem,
