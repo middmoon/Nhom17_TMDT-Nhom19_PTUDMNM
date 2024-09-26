@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         as: "products",
       });
 
-      this.hasOne(models.Review, {
+      this.hasMany(models.Review, {
         foreignKey: "order_id",
         as: "review",
       });
@@ -39,10 +39,10 @@ module.exports = (sequelize, DataTypes) => {
         as: "shipping_address",
       });
 
-      this.belongsTo(models.ShopAddress, {
-        foreignKey: "shop_address_id",
-        as: "shop_address",
-      });
+      // this.belongsTo(models.ShopAddress, {
+      //   foreignKey: "shop_address_id",
+      //   as: "shop_address",
+      // });
 
       this.belongsToMany(models.Voucher, {
         through: models.OrderVoucher,

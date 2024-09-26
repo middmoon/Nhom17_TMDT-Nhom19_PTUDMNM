@@ -26,3 +26,16 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTY5
     "brand_id": null,
     "category_ids": [2, 10]
 } 
+
+### comfirm 
+POST http://localhost:3030/api/v1/shop/order/:orderId/confirm
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTY5NDEyNywiZXhwIjoxNzI2NTU4MTI3fQ.pOKnHrJGkwj3WJqlYZuHKN5M-0vRNojFnF53hf6JLOg
+### deliver
+POST http://localhost:3030/api/v1/shop/order/:orderId/ship
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTY5NDEyNywiZXhwIjoxNzI2NTU4MTI3fQ.pOKnHrJGkwj3WJqlYZuHKN5M-0vRNojFnF53hf6JLOg
+### deliver
+POST http://localhost:3030/api/v1/shop/order/:orderId/deliver
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsImlhdCI6MTcyNTY5NDEyNywiZXhwIjoxNzI2NTU4MTI3fQ.pOKnHrJGkwj3WJqlYZuHKN5M-0vRNojFnF53hf6JLOg

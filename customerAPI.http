@@ -4,7 +4,7 @@ Content-Type: application/json
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNzM0MTEyOSwiZXhwIjoxNzI4MjA1MTI5fQ.VTG3DJJ-MaBPDSzIbrortbLvUg1i86Pk0zWoJmhjoiM
 
 {
-  "productId": 14,
+  "productId": 13,
   "quantity": 4
 }
 
@@ -18,7 +18,7 @@ Content-Type: application/json
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNzM0MTEyOSwiZXhwIjoxNzI4MjA1MTI5fQ.VTG3DJJ-MaBPDSzIbrortbLvUg1i86Pk0zWoJmhjoiM
 
 {
-  "productIds": [14],
+  "productIds": [14, 13],
   "customer_shipping_address_id": 2
 }
 
@@ -30,7 +30,7 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNzM0
 
 
 # ### Review order POSTMAN
-# POST http://localhost:3030/api/v1/customer/orders/:orderId/review
+# POST http://localhost:3030/api/v1/customer/orders/:orderId/review/:productId
 # Content-Type: application/json
 # authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsImlhdCI6MTcyNTc4MDM3NiwiZXhwIjoxNzI2NjQ0Mzc2fQ.8QYbGe6Y0dw9Ttzqd2x5rKZKamFcfZkbIlQPqt2c88U
 

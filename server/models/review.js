@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
         as: "order",
       });
 
-      // this.belongsTo(models.Product, {
-      //   foreignKey: "product_id",
-      //   as: "product",
-      // });
+      this.belongsTo(models.Product, {
+        foreignKey: "product_id",
+        as: "product",
+      });
 
       this.hasMany(models.ReviewImage, {
         foreignKey: "review_id",
@@ -41,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
       order_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      product_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
