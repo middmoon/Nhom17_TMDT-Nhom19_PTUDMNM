@@ -336,6 +336,7 @@ class CustomerService {
           {
             model: CartItem,
             as: "items",
+            required: false,
             include: [{ model: Product, as: "product" }],
           },
         ],
