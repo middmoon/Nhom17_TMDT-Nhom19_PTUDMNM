@@ -10,6 +10,7 @@ import Header from "../../component/header/header";
 import ProductHome from "../../component/ProductHome/ProductHome";
 import FeatureHome from "../../component/FeatureHome/FeatureHome";
 import Sale from "../../component/SaleImg/Sale";
+import Success from "../Success/Success";
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   function getCookie(name) {

@@ -4,14 +4,14 @@ import "./InCart.css";
 import axios from "axios";
 import Footer from "../../component/footer/footer";
 import Header from "../../component/header/header";
-
+import { useNavigate } from "react-router-dom";
 const InCart = () => {
   ///state
   const [address, setAddress] = useState([]);
   const [cart, setCart] = useState(null);
   const [selectedProductIds, setSelectedProductIds] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState("");
-
+  const navigate = useNavigate();
   ///Lay cookie
   function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -99,6 +99,7 @@ const InCart = () => {
       );
 
       console.log("Đặt hàng thành công");
+      navigate("/Cart/Success");
     } catch (error) {
       console.error("Lỗi khi gửi dữ liệu:", error);
     }

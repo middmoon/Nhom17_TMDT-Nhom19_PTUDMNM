@@ -16,6 +16,7 @@ import Listing from "./pages/Listing/Listing";
 import Footer from "./component/footer/footer";
 import ProductDetail from "./pages/Detail/ProductDetail";
 import InCart from "./pages/InCart/InCart";
+import Success from "./pages/Success/Success";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route exact={true} path="/List" element={<Listing />} />
         <Route exact={true} path="/List/:id" element={<ProductDetail />} />
         <Route exact={true} path="/Cart" element={<InCart />} />
+        <Route exact={true} path="/Cart/Success" element={<Success />} />
 
         <Route path="/Shop/*" element={<ShopManager />}>
           <Route path="profile" element={<ShopProfile />} />
